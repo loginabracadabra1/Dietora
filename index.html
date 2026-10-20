@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#FAF8F2">
+  <title>Dietora — Your Journey, Your Progress</title>
+  <style>
+    :root {
+      --green: #315D43;
+      --sage: #A9C4A8;
+      --cream: #FAF8F2;
+      --ink: #26372B;
+      --muted: #718074;
+      --white: #FFFFFF;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 7%;
+      border-bottom: 1px solid #e7e9df;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .mark {
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--green);
+      border-radius: 50% 50% 50% 8px;
+      transform: rotate(-45deg);
+      position: relative;
+    }
+
+    .mark::after {
+      content: "";
+      position: absolute;
+      width: 7px;
+      height: 7px;
+      background: var(--sage);
+      border-radius: 50%;
+      right: 3px;
+      top: 3px;
+    }
+
+    .status {
+      font-size: 12px;
+      color: var(--green);
+      background: #e8efe5;
+      padding: 6px 12px;
+      border-radius: 20px;
+    }
+
+    main {
+      width: min(1100px, 88%);
+      margin: 55px auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 42px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(38px, 6vw, 66px);
+      line-height: 1.08;
+      letter-spacing: -2.5px;
+      margin: 16px 0;
+    }
+
+    h1 span {
+      color: var(--green);
+    }
+
+    .intro {
+      max-width: 480px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 18px;
+      background: var(--green);
+      color: white;
+      padding: 13px 23px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button:focus-visible {
+      outline: 3px solid var(--sage);
+      outline-offset: 3px;
+    }
+
+    .preview {
+      padding: 26px;
+      border-radius: 24px;
+      background: var(--white);
+      box-shadow: 0 15px 45px #315d4310;
+      border: 1px solid #e8eadf;
+    }
+
+    .preview-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .calories {
+      margin: 8px 0 16px;
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      color: var(--green);
+    }
+
+    .calories small {
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0;
+      color: var(--muted);
+    }
+
+    .track {
+      height: 9px;
+      border-radius: 20px;
+      background: #edf0e9;
+      overflow: hidden;
+    }
+
+    .progress {
+      width: 65%;
+      height: 100%;
+      background: var(--green);
+      border-radius: 20px;
+    }
+
+    .preview-note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 70px;
+    }
+
+    .feature {
+      padding: 22px;
+      border: 1px solid #e7e9df;
+      border-radius: 16px;
+      background: #ffffff80;
+    }
+
+    .feature-icon {
+      font-size: 24px;
+    }
+
+    .feature h2 {
+      font-size: 17px;
+      margin: 10px 0 5px;
+    }
+
+    .feature p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 25px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        padding: 17px 6%;
+      }
+
+      main {
+        margin: 38px auto;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      h1 {
+        letter-spacing: -1.5px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+        margin-top: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      Dietora
+    </div>
+    <span class="status">Your wellness journey</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Small steps. Real progress.</div>
+        <h1>Your journey,<br><span>your progress.</span></h1>
+        <p class="intro">
+          Build healthier habits at your own pace.
+          Track your nutrition, move with purpose,
+          and celebrate every step forward.
+        </p>
+        <a class="button" href="#features">Explore Dietora &rarr;</a>
+      </div>
+
+      <div class="preview">
+        <div class="preview-label">Your daily overview</div>
+        <div class="calories">1,300 <small>/ 2,000 kcal</small></div>
+        <div class="track"><div class="progress"></div></div>
+        <p class="preview-note">
+          Preview only · Sample data, not saved
+        </p>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <article class="feature">
+        <div class="feature-icon" aria-hidden="true">◉</div>
+        <h2>Nutrition tracking</h2>
+        <p>Understand your daily food intake and build balanced habits.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon" aria-hidden="true">↗</div>
+        <h2>Movement matters</h2>
+        <p>Keep track of activity and celebrate consistency over time.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature-icon" aria-hidden="true">⌁</div>
+        <h2>Progress, your way</h2>
+        <p>Follow your journey with realistic goals and steady progress.</p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    Dietora · Your Journey, Your Progress
+  </footer>
+</body>
+</html>
