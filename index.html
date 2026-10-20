@@ -80,8 +80,20 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 .day.active { background: var(--green); color: white; }
 .day.active strong, .day.active span { color: white; }
 .calendar-open { white-space: nowrap; }
-.grid { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(300px,.85fr); gap: 18px; align-items: start; }
-.stack { display: grid; gap: 18px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
+.stack {
+  display: contents;
+}
+
+#summaryCard {
+  grid-column: 1 / -1;
+}
 .card {
   background: white; border: 1px solid var(--line); border-radius: 20px;
   padding: 20px; box-shadow: var(--shadow); min-width: 0;
@@ -265,63 +277,178 @@ button:focus-visible, input:focus-visible, select:focus-visible {
 </section>
 
 <div class="grid">
-<div class="stack">
+
+  <!-- 2. Daily Net Calories -->
+  <section class="card summary-card">
+    <div class="card-head">
+      <div>
+        <div class="eyebrow" data-t="netCalories">DAILY NET CALORIES</div>
+        <h2 style="color:white;margin-top:5px" data-t="afterActivity">After activity</h2>
+      </div>
+      <span class="badge" style="background:#ffffff20;color:white" data-t="today">TODAY</span>
+    </div>
+    <div class="big-number">
+      <span id="netCalories">0</span>
+      <span style="font-size:14px;letter-spacing:0;font-weight:600">kcal</span>
+    </div>
+    <p class="card-sub" data-t="netExplain" style="color:#e0e9dd">
+      Food calories minus logged activity calories.
+    </p>
+    <div class="progress"><span id="calorieProgress"></span></div>
+    <div class="progress-caption">
+      <span><span data-t="food">Food</span>: <b id="foodMini">0</b></span>
+      <span><span data-t="burnedShort">Burned</span>: <b id="burnMini">0</b></span>
+    </div>
+    <div class="stat-grid">
+      <div class="stat">
+        <span data-t="foodIntake">Food intake</span>
+        <strong id="summaryFood">0 kcal</strong>
+      </div>
+      <div class="stat">
+        <span data-t="exercise">Activity</span>
+        <strong id="summaryBurn">0 kcal</strong>
+      </div>
+      <div class="stat">
+        <span data-t="target">Daily target</span>
+        <strong id="summaryTarget">—</strong>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Daily Calories History -->
+  <section class="card">
+    <div class="card-head">
+      <div>
+        <h2 data-t="historyTitle">Daily Calories History</h2>
+        <p class="card-sub" data-t="historySub">Your recent intake at a glance.</p>
+      </div>
+      <span class="badge" data-t="last7">LAST 7 DAYS</span>
+    </div>
+    <div class="two-stat">
+      <div class="soft-stat">
+        <span data-t="foodToday">Today's food</span>
+        <strong id="historyFood">0 kcal</strong>
+      </div>
+      <div class="soft-stat">
+        <span data-t="netToday">Today's net</span>
+        <strong id="historyNet">0 kcal</strong>
+      </div>
+    </div>
+    <div id="historyChart" class="history-mini"></div>
+    <div class="see-more-row">
+      <button class="btn soft small" id="seeMore" data-t="seeMore">See more ↗</button>
+    </div>
+  </section>
+
+  <!-- 4. Today's Food Log -->
   <section class="card" id="foodCard">
-    <div class="card-head"><div><h2 data-t="foodTitle">Today's Food Log</h2><p class="card-sub" data-t="foodSub">Add meals and calories. Your total updates automatically.</p></div><span class="badge" data-t="intake">INTAKE</span></div>
+    <div class="card-head">
+      <div>
+        <h2 data-t="foodTitle">Today's Food Log</h2>
+        <p class="card-sub" data-t="foodSub">Add meals and calories. Your total updates automatically.</p>
+      </div>
+      <span class="badge" data-t="intake">INTAKE</span>
+    </div>
     <form id="foodForm" class="inline-form">
-      <div class="field"><label data-t="foodName">Food / meal name</label><input id="foodName" required placeholder="e.g. Chicken rice" maxlength="70"></div>
-      <div class="field"><label data-t="calories">Calories (kcal)</label><input id="foodCalories" type="number" min="0" max="10000" step="1" required placeholder="450"></div>
+      <div class="field">
+        <label data-t="foodName">Food / meal name</label>
+        <input id="foodName" required placeholder="e.g. Chicken rice" maxlength="70">
+      </div>
+      <div class="field">
+        <label data-t="calories">Calories (kcal)</label>
+        <input id="foodCalories" type="number" min="0" max="10000" step="1" required placeholder="450">
+      </div>
       <button class="btn primary" type="submit" data-t="addFood">+ Add food</button>
     </form>
-    <p class="micro" style="margin:9px 0 0" data-t="foodHint">Enter a calorie estimate from the package or your own calculation.</p>
+    <p class="micro" style="margin:9px 0 0" data-t="foodHint">
+      Enter a calorie estimate from the package or your own calculation.
+    </p>
     <div id="foodList" class="food-list"></div>
-    <div class="total-line"><span data-t="totalFood">Total food calories</span><strong><span id="foodTotal">0</span> <span class="unit">kcal</span></strong></div>
+    <div class="total-line">
+      <span data-t="totalFood">Total food calories</span>
+      <strong><span id="foodTotal">0</span> <span class="unit">kcal</span></strong>
+    </div>
   </section>
 
+  <!-- 5. Activity Log -->
   <section class="card" id="activityCard">
-    <div class="card-head"><div><h2 data-t="activityTitle">Activity Log</h2><p class="card-sub" data-t="activitySub">Track movement and estimated calories burned.</p></div><span class="badge" data-t="movement">MOVEMENT</span></div>
+    <div class="card-head">
+      <div>
+        <h2 data-t="activityTitle">Activity Log</h2>
+        <p class="card-sub" data-t="activitySub">Track movement and estimated calories burned.</p>
+      </div>
+      <span class="badge" data-t="movement">MOVEMENT</span>
+    </div>
     <form id="activityForm" class="inline-form activity">
-      <div class="field"><label data-t="activityName">Activity</label><input id="activityName" required maxlength="70" placeholder="e.g. Running"></div>
-      <div class="field"><label data-t="duration">Minutes</label><input id="activityMinutes" type="number" min="1" max="1440" placeholder="30"></div>
-      <div class="field"><label data-t="burned">Calories burned</label><input id="activityCalories" type="number" min="0" max="10000" required placeholder="250"></div>
+      <div class="field">
+        <label data-t="activityName">Activity</label>
+        <input id="activityName" required maxlength="70" placeholder="e.g. Running">
+      </div>
+      <div class="field">
+        <label data-t="duration">Minutes</label>
+        <input id="activityMinutes" type="number" min="1" max="1440" placeholder="30">
+      </div>
+      <div class="field">
+        <label data-t="burned">Calories burned</label>
+        <input id="activityCalories" type="number" min="0" max="10000" required placeholder="250">
+      </div>
       <button class="btn primary" type="submit" data-t="addActivity">+ Add activity</button>
     </form>
-    <p class="micro" style="margin:9px 0 0" data-t="activityHint">Burned calories are estimates and vary by body weight and intensity.</p>
+    <p class="micro" style="margin:9px 0 0" data-t="activityHint">
+      Burned calories are estimates and vary by body weight and intensity.
+    </p>
     <div id="activityList" class="activity-list"></div>
-    <div class="total-line"><span data-t="totalBurned">Total activity calories</span><strong><span id="activityTotal">0</span> <span class="unit">kcal</span></strong></div>
-  </section>
-</div>
-
-<div class="stack">
-  <section class="card summary-card">
-    <div class="card-head"><div><div class="eyebrow" data-t="netCalories">DAILY NET CALORIES</div><h2 style="color:white;margin-top:5px" data-t="afterActivity">After activity</h2></div><span class="badge" style="background:#ffffff20;color:white" data-t="today">TODAY</span></div>
-    <div class="big-number"><span id="netCalories">0</span> <span style="font-size:14px;letter-spacing:0;font-weight:600">kcal</span></div>
-    <p class="card-sub" data-t="netExplain" style="color:#e0e9dd">Food calories minus logged activity calories.</p>
-    <div class="progress"><span id="calorieProgress"></span></div>
-    <div class="progress-caption"><span><span data-t="food">Food</span>: <b id="foodMini">0</b></span><span><span data-t="burnedShort">Burned</span>: <b id="burnMini">0</b></span></div>
-    <div class="stat-grid"><div class="stat"><span data-t="foodIntake">Food intake</span><strong id="summaryFood">0 kcal</strong></div><div class="stat"><span data-t="exercise">Activity</span><strong id="summaryBurn">0 kcal</strong></div><div class="stat"><span data-t="target">Daily target</span><strong id="summaryTarget">—</strong></div></div>
-  </section>
-
-  <section class="card">
-    <div class="card-head"><div><h2 data-t="historyTitle">Daily Calories History</h2><p class="card-sub" data-t="historySub">Your recent intake at a glance.</p></div><span class="badge" data-t="last7">LAST 7 DAYS</span></div>
-    <div class="two-stat"><div class="soft-stat"><span data-t="foodToday">Today's food</span><strong id="historyFood">0 kcal</strong></div><div class="soft-stat"><span data-t="netToday">Today's net</span><strong id="historyNet">0 kcal</strong></div></div>
-    <div id="historyChart" class="history-mini"></div>
-    <div class="see-more-row"><button class="btn soft small" id="seeMore" data-t="seeMore">See more ↗</button></div>
-  </section>
-
-  <section class="card">
-    <div class="card-head"><div><h2 data-t="summaryTitle">Daily Summary & Weight Progress</h2><p class="card-sub" data-t="summarySub">Your energy balance and weight trend.</p></div><span class="badge" data-t="overview">OVERVIEW</span></div>
-    <div class="summary-metrics">
-      <div class="metric"><span data-t="netBalance">Net after activity</span><strong id="metricNet">0 kcal</strong><small data-t="notFullBalance">Not your full daily energy balance</small></div>
-      <div class="metric"><span data-t="deficitSurplus">Est. deficit / surplus</span><strong id="metricBalance">—</strong><small id="metricBalanceHint" data-t="vsTarget">Compared with your daily target</small></div>
-      <div class="metric"><span data-t="estimatedChange">Theoretical weight change</span><strong id="metricChange">—</strong><small data-t="dailyEstimate">Estimate for one day only</small></div>
-      <div class="metric"><span data-t="weightNow">Current weight</span><strong id="metricWeight">—</strong><small id="metricGoal">—</small></div>
+    <div class="total-line">
+      <span data-t="totalBurned">Total activity calories</span>
+      <strong><span id="activityTotal">0</span> <span class="unit">kcal</span></strong>
     </div>
-    <div class="card-head" style="margin:20px 0 8px"><div><h2 data-t="weightProgress">Weight Progress</h2><p class="card-sub" data-t="weightSub">Log weight to build your trend.</p></div><button class="btn soft small" id="addWeightBtn" data-t="logWeight">+ Log weight</button></div>
-    <div class="weight-chart" id="weightChart"></div><div id="weightList" class="weight-list"></div>
-    <div class="notice" data-t="weightDisclaimer">Weight estimates are theoretical. Actual changes depend on water, digestion, and other factors.</div>
   </section>
-</div>
+
+  <!-- 6. Daily Summary & Weight Progress -->
+  <section class="card" id="summaryCard">
+    <div class="card-head">
+      <div>
+        <h2 data-t="summaryTitle">Daily Summary & Weight Progress</h2>
+        <p class="card-sub" data-t="summarySub">Your energy balance and weight trend.</p>
+      </div>
+      <span class="badge" data-t="overview">OVERVIEW</span>
+    </div>
+    <div class="summary-metrics">
+      <div class="metric">
+        <span data-t="netBalance">Net after activity</span>
+        <strong id="metricNet">0 kcal</strong>
+        <small data-t="notFullBalance">Not your full daily energy balance</small>
+      </div>
+      <div class="metric">
+        <span data-t="deficitSurplus">Est. deficit / surplus</span>
+        <strong id="metricBalance">—</strong>
+        <small id="metricBalanceHint" data-t="vsTarget">Compared with your daily target</small>
+      </div>
+      <div class="metric">
+        <span data-t="estimatedChange">Theoretical weight change</span>
+        <strong id="metricChange">—</strong>
+        <small data-t="dailyEstimate">Estimate for one day only</small>
+      </div>
+      <div class="metric">
+        <span data-t="weightNow">Current weight</span>
+        <strong id="metricWeight">—</strong>
+        <small id="metricGoal">—</small>
+      </div>
+    </div>
+    <div class="card-head" style="margin:20px 0 8px">
+      <div>
+        <h2 data-t="weightProgress">Weight Progress</h2>
+        <p class="card-sub" data-t="weightSub">Log weight to build your trend.</p>
+      </div>
+      <button class="btn soft small" id="addWeightBtn" data-t="logWeight">+ Log weight</button>
+    </div>
+    <div class="weight-chart" id="weightChart"></div>
+    <div id="weightList" class="weight-list"></div>
+    <div class="notice" data-t="weightDisclaimer">
+      Weight estimates are theoretical. Actual changes depend on water, digestion, and other factors.
+    </div>
+  </section>
+
 </div>
 <div class="footer">DIETORA · MINDFUL NUTRITION · <span data-t="prototype">FREE PROTOTYPE</span></div>
 </main>
