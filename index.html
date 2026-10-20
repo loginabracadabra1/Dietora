@@ -787,6 +787,37 @@ $("calorie-progress").style.width=target?Math.min(100,eaten/target*100)+"%":"0%"
 $("target-status").textContent=target?`${Math.max(0,target-eaten)} kcal ${lang==="id"?"tersisa dari target":"remaining of target"} (${target} kcal)`:tr("targetHint");
 }
 setLang("en");
+
+function showMealPhoto(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("Please select an image.");
+    return;
+  }
+
+  const preview = document.getElementById("photo-preview");
+  const imageURL = URL.createObjectURL(file);
+
+  preview.innerHTML = "";
+
+  const image = document.createElement("img");
+  image.src = imageURL;
+  image.alt = "Your meal photo preview";
+
+  preview.appendChild(image);
+}
+
+document.getElementById("camera-input")
+  .addEventListener("change", function () {
+    showMealPhoto(this);
+  });
+
+document.getElementById("gallery-input")
+  .addEventListener("change", function () {
+    showMealPhoto(this);
+  });
 </script>
 </body>
 </html>
