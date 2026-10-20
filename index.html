@@ -1,527 +1,682 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#315D43">
-  <title>Dietora — Your Journey, Your Progress</title>
-  <style>
-    :root {
-      --green: #315D43;
-      --sage: #A9C4A8;
-      --cream: #FAF8F2;
-      --white: #FFFFFF;
-      --ink: #23352A;
-      --muted: #758078;
-      --line: #E5E9E1;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--cream);
-      color: var(--ink);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    button, input, select { font: inherit; }
-
-    button { cursor: pointer; }
-
-    .topbar {
-      background: var(--white);
-      border-bottom: 1px solid var(--line);
-      padding: 16px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 5;
-    }
-
-    .brand {
-      color: var(--green);
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    .brand span { color: #88A78A; }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    select, .outline-btn {
-      border: 1px solid var(--line);
-      background: white;
-      border-radius: 10px;
-      padding: 10px;
-      color: var(--ink);
-    }
-
-    main {
-      max-width: 1120px;
-      padding: 28px 18px 48px;
-      margin: auto;
-    }
-
-    .welcome {
-      background: var(--green);
-      color: white;
-      border-radius: 22px;
-      padding: 27px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      overflow: hidden;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 1.6px;
-      font-size: 11px;
-      font-weight: bold;
-      color: var(--sage);
-    }
-
-    h1 {
-      font-size: clamp(26px, 5vw, 38px);
-      line-height: 1.15;
-      margin: 12px 0;
-      letter-spacing: -1px;
-    }
-
-    .welcome p {
-      color: #E0E9DF;
-      line-height: 1.6;
-      margin-bottom: 0;
-      max-width: 460px;
-    }
-
-    .date-label {
-      font-size: 12px;
-      color: #E0E9DF;
-      white-space: nowrap;
-    }
-
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin: 30px 0 15px;
-    }
-
-    h2 { font-size: 19px; margin: 0; }
-    .muted { color: var(--muted); font-size: 13px; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .card {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px;
-      min-width: 0;
-    }
-
-    .card-label {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    .big-number {
-      font-size: clamp(24px, 4vw, 32px);
-      font-weight: 750;
-      letter-spacing: -1px;
-    }
-
-    .unit { font-size: 13px; font-weight: normal; color: var(--muted); }
-
-    .track {
-      height: 8px;
-      background: #EDF0E9;
-      border-radius: 20px;
-      overflow: hidden;
-      margin: 15px 0 9px;
-    }
-
-    .fill {
-      height: 100%;
-      width: 0;
-      background: var(--green);
-      border-radius: inherit;
-      transition: width .25s;
-    }
-
-    .small { font-size: 12px; color: var(--muted); }
-
-    .columns {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 15px;
-      margin-top: 16px;
-    }
-
-    .action-btn {
-      background: var(--green);
-      color: white;
-      border: none;
-      border-radius: 11px;
-      padding: 11px 15px;
-      font-weight: 650;
-    }
-
-    .action-btn:hover { background: #244832; }
-
-    .food-form {
-      display: grid;
-      grid-template-columns: 1fr 100px auto;
-      gap: 8px;
-      margin-top: 18px;
-    }
-
-    input {
-      width: 100%;
-      min-width: 0;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 11px;
-      background: #FFFEFC;
-      color: var(--ink);
-    }
-
-    .entry {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .entry:last-child { border-bottom: none; }
-    .entry-name { font-weight: 600; font-size: 14px; }
-    .entry-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
-
-    .delete-btn {
-      background: transparent;
-      border: none;
-      color: #9A6156;
-      padding: 8px;
-    }
-
-    .exercise-form {
-      display: grid;
-      gap: 9px;
-      margin-top: 17px;
-    }
-
-    .exercise-form input { width: 100%; }
-
-    .progress-card {
-      margin-top: 16px;
-      background: #EAF0E6;
-      border-radius: 18px;
-      padding: 22px;
-    }
-
-    .progress-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .notice {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.6;
-      margin-top: 20px;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-      padding: 24px 10px;
-    }
-
-    @media (max-width: 700px) {
-      .grid { grid-template-columns: 1fr; }
-      .columns { grid-template-columns: 1fr; }
-      .welcome { padding: 22px; }
-      .date-label { display: none; }
-      main { padding: 20px 14px 35px; }
-      .card { padding: 18px; }
-      .food-form { grid-template-columns: 1fr 90px; }
-      .food-form button { grid-column: 1 / -1; }
-      .topbar { padding: 13px 14px; }
-      .brand { font-size: 23px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dietora — Mindful Nutrition</title>
+<style>
+:root {
+  --green: #315D43;
+  --sage: #A9C4A8;
+  --cream: #FAF8F2;
+  --ink: #243329;
+  --muted: #758176;
+  --line: #E4E9E0;
+  --soft: #F0F4EC;
+  --white: #FFFFFF;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: Arial, sans-serif;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+.hidden { display: none !important; }
+header {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--green);
+  font-size: 23px;
+  font-weight: 800;
+}
+.logo {
+  width: 35px;
+  height: 35px;
+  border-radius: 12px;
+  background: var(--green);
+  color: white;
+  display: grid;
+  place-items: center;
+}
+.languages {
+  display: flex;
+  gap: 4px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 30px;
+  padding: 4px;
+}
+.languages button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 7px 11px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.languages button.active {
+  background: var(--green);
+  color: white;
+}
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px 22px 55px;
+}
+.auth-layout {
+  min-height: 75vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 35px;
+}
+.hero {
+  background: var(--green);
+  color: var(--cream);
+  max-width: 420px;
+  margin: auto;
+  padding: 25px 22px;
+  border-radius: 23px;
+  text-align: center;
+}
+.eyebrow {
+  color: var(--sage);
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  margin: 0 0 14px;
+}
+.hero h1 {
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1.16;
+  font-weight: 600;
+  margin: 0 0 14px;
+}
+.hero p:not(.eyebrow) {
+  color: #E4EAE2;
+  font-size: 13px;
+  line-height: 1.75;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.hero-foot {
+  border-top: 1px solid #ffffff30;
+  padding-top: 14px;
+  margin-top: 20px;
+  font-size: 11px;
+  color: #D7E2D5;
+}
+.card {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 12px 35px #2446310c;
+  width: 100%;
+  max-width: 440px;
+  margin: auto;
+}
+.label-top {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--green);
+  margin: 0 0 10px;
+}
+h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0 0 10px;
+}
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.field {
+  display: block;
+  margin-top: 16px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.field input, .search-input, .mini-input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-top: 7px;
+  background: #FEFEFC;
+  color: var(--ink);
+}
+.btn {
+  border: 0;
+  border-radius: 12px;
+  padding: 13px 17px;
+  background: var(--green);
+  color: white;
+  font-size: 13px;
+  font-weight: 750;
+}
+.full { width: 100%; margin-top: 20px; }
+.secondary { background: var(--soft); color: var(--green); }
+.link {
+  background: none;
+  border: 0;
+  color: var(--green);
+  font-weight: 800;
+  padding: 5px;
+}
+.auth-foot {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 18px;
+}
+.notice {
+  font-size: 11px;
+  color: #795A22;
+  background: #FFF5E5;
+  padding: 11px;
+  border-radius: 10px;
+  margin-top: 15px;
+  line-height: 1.6;
+}
+.onboard {
+  min-height: 65vh;
+  display: grid;
+  place-items: center;
+  padding: 20px 0;
+}
+.question-card { max-width: 560px; position: relative; }
+.skip {
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--muted);
+  padding-right: 48px;
+  margin-bottom: 10px;
+}
+.progress {
+  height: 5px;
+  background: #EAF0E7;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 25px;
+}
+.progress div {
+  height: 100%;
+  background: var(--green);
+}
+.icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 15px;
+  background: var(--soft);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 22px;
+}
+.option {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  padding: 15px;
+  text-align: left;
+  color: var(--ink);
+  min-height: 58px;
+}
+.option strong { font-size: 13px; display: block; }
+.option small {
+  font-size: 11px;
+  color: var(--muted);
+  display: block;
+  margin-top: 5px;
+}
+.option.selected {
+  border-color: var(--green);
+  background: var(--soft);
+}
+.actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 25px;
+}
+.actions button { min-width: 110px; }
+.dashboard-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin: 20px 0 25px;
+}
+.dashboard-head h2 { margin-bottom: 5px; }
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1.4fr .8fr;
+  gap: 17px;
+  align-items: start;
+}
+.panel {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  padding: 21px;
+  margin-bottom: 17px;
+}
+.panel h3 { font-size: 16px; margin: 0 0 7px; }
+.panel-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 15px;
+}
+.search-row { display: flex; gap: 8px; }
+.search-row .search-input { margin: 0; min-width: 0; }
+.results, .logs { display: grid; gap: 8px; margin-top: 12px; }
+.result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: #F8FAF6;
+  border: 1px solid #EEF1EA;
+  border-radius: 12px;
+  padding: 11px;
+}
+.result strong { font-size: 12px; display: block; }
+.result small {
+  font-size: 10px;
+  color: var(--muted);
+  display: block;
+  margin-top: 4px;
+}
+.result .cal {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+.result button {
+  border: 0;
+  background: #E6EFE3;
+  color: var(--green);
+  border-radius: 8px;
+  padding: 7px;
+  font-size: 10px;
+  font-weight: 800;
+}
+.empty {
+  font-size: 12px;
+  color: var(--muted);
+  background: #F8FAF6;
+  border-radius: 10px;
+  padding: 13px;
+}
+.calorie-card {
+  background: var(--green);
+  color: white;
+  border-radius: 19px;
+  padding: 21px;
+  margin-bottom: 17px;
+}
+.calorie-card .panel-desc { color: #D8E4D6; }
+.calorie-big { font-size: 34px; font-weight: 800; margin: 0; }
+.calorie-big span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #D8E4D6;
+}
+.track {
+  height: 7px;
+  background: #ffffff30;
+  border-radius: 10px;
+  margin: 14px 0;
+  overflow: hidden;
+}
+.track div { height: 100%; width: 0; background: var(--sage); }
+.stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 14px; }
+.stat { background: var(--soft); padding: 12px 8px; border-radius: 11px; }
+.stat strong { display: block; color: var(--green); font-size: 16px; }
+.stat span { font-size: 9px; color: var(--muted); }
+.note {
+  background: var(--soft);
+  padding: 12px;
+  border-radius: 11px;
+  color: #586758;
+  font-size: 11px;
+  line-height: 1.6;
+  margin-top: 13px;
+}
+.mini-form { display: grid; grid-template-columns: 1fr 90px; gap: 8px; margin-top: 12px; }
+.mini-input { margin: 0; min-width: 0; padding: 11px; }
+.mini-form button { grid-column: 1 / -1; }
+footer { text-align: center; color: #8A9588; font-size: 11px; padding: 20px; }
+@media(max-width:760px) {
+  .auth-layout, .dashboard-grid { grid-template-columns: 1fr; }
+  .auth-layout { gap: 18px; }
+  .hero { padding: 23px 20px; }
+  .hero h1 { font-size: 34px; }
+  .dashboard-head { align-items: start; flex-direction: column; }
+}
+@media(max-width:430px) {
+  header { padding: 15px 16px; }
+  main { padding: 15px 12px 35px; }
+  .card { padding: 21px; }
+  .options { grid-template-columns: 1fr; }
+  .search-row { flex-direction: column; }
+  .search-row .btn { width: 100%; }
+}
+</style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">dietora<span>.</span></div>
-    <div class="top-actions">
-      <select id="language" aria-label="Language">
-        <option value="en">English</option>
-        <option value="id">Indonesia</option>
-      </select>
+<header>
+  <div class="brand"><span class="logo">d.</span> dietora</div>
+  <div class="languages">
+    <button id="lang-en" class="active" type="button">EN</button>
+    <button id="lang-id" type="button">ID</button>
+  </div>
+</header>
+<main>
+<section id="auth" class="auth-layout">
+  <div class="hero">
+    <p class="eyebrow" data-t="eyebrow">SMALL STEPS. LASTING CHANGE.</p>
+    <h1 data-html="heroTitle">Your journey,<br>made mindful.</h1>
+    <p data-t="heroDesc">A calmer, clearer way to understand your food, build healthy habits, and move toward your goals.</p>
+    <div class="hero-foot" data-t="heroFoot">A little more mindful, one day at a time.</div>
+  </div>
+  <div class="card">
+    <p class="label-top" data-t="welcome">WELCOME TO DIETORA</p>
+    <h2 id="auth-title">Sign in to your space</h2>
+    <p class="muted" id="auth-desc">Your personal space for mindful nutrition starts here.</p>
+    <form id="auth-form">
+      <label class="field"><span data-t="email">Email address</span><input id="email" type="email" placeholder="you@example.com" required></label>
+      <label class="field"><span data-t="password">Password</span><input id="password" type="password" minlength="4" required></label>
+      <button class="btn full" id="auth-submit" type="submit">Sign in</button>
+    </form>
+    <div class="auth-foot"><span id="auth-toggle-text">New to Dietora?</span> <button class="link" id="auth-toggle" type="button">Create an account</button></div>
+    <div class="notice" data-t="demoNotice">Prototype only: login is not secure and data is not saved online.</div>
+  </div>
+</section>
+
+<section id="intro" class="onboard hidden">
+  <div class="card" style="text-align:center">
+    <div class="icon" style="margin:0 auto 18px">🌿</div>
+    <p class="label-top" data-t="journey">YOUR JOURNEY STARTS HERE</p>
+    <h2 data-t="introTitle">A healthier routine, your way.</h2>
+    <p class="muted" data-t="introDesc">Explore food calories, build mindful habits, and understand your progress.</p>
+    <button class="btn full" id="start-profile" data-t="getStarted" type="button">Let's get started</button>
+    <button class="link" id="skip-intro" data-t="skipExplore" type="button">Skip setup and explore Dietora</button>
+  </div>
+</section>
+
+<section id="onboarding" class="onboard hidden">
+  <div class="card question-card">
+    <button class="skip" id="skip-profile" type="button" data-t="skip">Skip</button>
+    <div class="progress-label"><span data-t="personalize">PERSONALIZE YOUR EXPERIENCE</span><span id="step-count">1 / 6</span></div>
+    <div class="progress"><div id="progress-fill" style="width:16.6%"></div></div>
+    <div id="question"></div>
+    <div class="actions"><button class="btn secondary" id="back" type="button" data-t="back">Back</button><button class="btn" id="next" type="button" data-t="continue">Continue</button></div>
+  </div>
+</section>
+
+<section id="dashboard" class="hidden">
+  <div class="dashboard-head">
+    <div><p class="label-top" data-t="space">YOUR MINDFUL SPACE</p><h2><span data-t="hello">Hello</span>, <span id="username">there</span> 🌱</h2><p class="muted" data-t="dashboardDesc">Start with what you eat today.</p></div>
+    <button class="btn secondary" id="edit-profile" data-t="profileSetup" type="button">Profile setup</button>
+  </div>
+  <div class="dashboard-grid">
+    <div>
+      <section class="panel">
+        <h3 data-t="foodSearch">Find food calories</h3><p class="panel-desc" data-t="foodSearchDesc">Search the sample list or add your own estimate.</p>
+        <div class="search-row"><input class="search-input" id="search" data-ph="searchPlaceholder" placeholder="Try rice, banana, egg..."><button class="btn" id="search-button" data-t="searchBtn" type="button">Search</button></div>
+        <div class="results" id="results"></div>
+      </section>
+      <section class="panel">
+        <h3 data-t="foodLog">Today's food log</h3><p class="panel-desc" data-t="foodLogDesc">Entries stay in this demo session only.</p>
+        <div class="logs" id="food-logs"></div>
+        <form class="mini-form" id="custom-food"><input class="mini-input" id="custom-name" data-ph="foodName" placeholder="Food name" required><input class="mini-input" id="custom-cal" type="number" min="0" placeholder="kcal" required><button class="btn" type="submit" data-t="addFood">Add food</button></form>
+      </section>
+      <section class="panel">
+        <h3 data-t="movement">Movement log</h3><p class="panel-desc" data-t="movementDesc">Record activity and estimated calories burned.</p>
+        <form class="mini-form" id="exercise-form"><input class="mini-input" id="activity-name" data-ph="activityPlaceholder" placeholder="e.g. Walking 30 min" required><input class="mini-input" id="activity-cal" type="number" min="0" placeholder="kcal" required><button class="btn" type="submit" data-t="addActivity">Add activity</button></form>
+        <div class="logs" id="exercise-logs"></div>
+      </section>
     </div>
-  </header>
+    <aside>
+      <section class="calorie-card">
+        <p class="panel-desc" data-t="intake">TODAY'S CALORIE INTAKE</p>
+        <p class="calorie-big"><span id="eaten">0</span> <span data-t="kcalEaten">kcal eaten</span></p>
+        <div class="track"><div id="calorie-progress"></div></div>
+        <p class="panel-desc" id="target-status" data-t="targetHint">Set a target or complete your profile.</p>
+        <button class="btn secondary" id="set-target" data-t="setTarget" type="button">Set calorie target</button>
+      </section>
+      <section class="panel">
+        <h3 data-t="summary">Daily summary</h3><p class="panel-desc" data-t="summaryDesc">A simple overview of your entries.</p>
+        <div class="stats"><div class="stat"><strong id="food-count">0</strong><span data-t="foodEntries">Food entries</span></div><div class="stat"><strong id="activity-count">0</strong><span data-t="activities">Activities</span></div><div class="stat"><strong id="burned">0</strong><span data-t="burnedLabel">kcal burned</span></div></div>
+        <div class="note" id="profile-summary" data-t="profileNote">Your profile is optional. Food search works without it.</div>
+      </section>
+      <section class="panel">
+        <h3 data-t="weightProgress">Weight progress</h3><p class="panel-desc" data-t="weightDesc">Track your weight whenever you feel ready.</p>
+        <form class="mini-form" id="weight-form"><input class="mini-input" id="weight" type="number" min="20" max="400" step=".1" data-ph="weightPlaceholder" placeholder="Weight (kg)" required><button class="btn" type="submit" data-t="saveWeight">Save weight</button></form>
+        <div class="logs" id="weight-logs"></div>
+      </section>
+    </aside>
+  </div>
+  <footer data-t="footer">Dietora is a supportive tool, not medical advice. Food calories are estimates.</footer>
+</section>
+</main>
 
-  <main>
-    <section class="welcome">
-      <div>
-        <div class="eyebrow" data-en="YOUR PERSONAL WELLNESS SPACE"
-             data-id="RUANG KESEHATAN PERSONALMU">YOUR PERSONAL WELLNESS SPACE</div>
-        <h1 data-en="Small steps.<br>Meaningful progress."
-            data-id="Langkah kecil.<br>Progres berarti.">Small steps.<br>Meaningful progress.</h1>
-        <p data-en="Build healthier habits, one day at a time. Your journey, your progress."
-           data-id="Bangun kebiasaan lebih sehat, satu hari demi satu hari. Perjalananmu, progresmu.">Build healthier habits, one day at a time. Your journey, your progress.</p>
-      </div>
-      <div class="date-label" id="today"></div>
-    </section>
-
-    <div class="section-heading">
-      <div>
-        <h2 data-en="Your daily overview" data-id="Ringkasan harianmu">Your daily overview</h2>
-        <div class="muted" data-en="A fresh day to take care of yourself."
-             data-id="Hari baru untuk menjaga dirimu.">A fresh day to take care of yourself.</div>
-      </div>
-    </div>
-
-    <section class="grid">
-      <article class="card">
-        <div class="card-label" data-en="Calories consumed" data-id="Kalori dikonsumsi">Calories consumed</div>
-        <div class="big-number"><span id="consumed">0</span> <span class="unit">kcal</span></div>
-        <div class="track"><div class="fill" id="calorieBar"></div></div>
-        <div class="small"><span id="remaining">2000</span> <span data-en="kcal remaining" data-id="kkal tersisa">kcal remaining</span></div>
-      </article>
-
-      <article class="card">
-        <div class="card-label" data-en="Daily calorie target" data-id="Target kalori harian">Daily calorie target</div>
-        <div class="big-number"><span id="targetDisplay">2000</span> <span class="unit">kcal</span></div>
-        <div class="track"><div class="fill" style="width:100%;background:#A9C4A8"></div></div>
-        <form id="targetForm" class="exercise-form">
-          <label class="small" for="targetInput" data-en="Adjust your target" data-id="Atur targetmu">Adjust your target</label>
-          <input id="targetInput" type="number" min="500" max="6000" value="2000" required>
-          <button class="action-btn" type="submit" data-en="Update target" data-id="Ubah target">Update target</button>
-        </form>
-      </article>
-
-      <article class="card">
-        <div class="card-label" data-en="Exercise burned" data-id="Kalori olahraga terbakar">Exercise burned</div>
-        <div class="big-number"><span id="burned">0</span> <span class="unit">kcal</span></div>
-        <div class="track"><div class="fill" id="exerciseBar" style="background:#A9C4A8"></div></div>
-        <div class="small" data-en="Estimated from your entries" data-id="Estimasi dari catatanmu">Estimated from your entries</div>
-      </article>
-    </section>
-
-    <section class="columns">
-      <article class="card">
-        <div class="section-heading" style="margin-top:0">
-          <h2 data-en="Food diary" data-id="Catatan makanan">Food diary</h2>
-          <span class="muted" data-en="Today" data-id="Hari ini">Today</span>
-        </div>
-        <div class="muted" data-en="Add foods and their estimated calories."
-             data-id="Tambahkan makanan dan perkiraan kalorinya.">Add foods and their estimated calories.</div>
-        <form class="food-form" id="foodForm">
-          <input id="foodName" maxlength="60" placeholder="Food name" aria-label="Food name" required>
-          <input id="foodCalories" type="number" min="0" max="10000" placeholder="kcal" aria-label="Calories" required>
-          <button class="action-btn" type="submit" data-en="Add food" data-id="Tambah">Add food</button>
-        </form>
-        <div id="foodList" style="margin-top:14px">
-          <div class="entry">
-            <div><div class="entry-name" data-en="Sample breakfast" data-id="Contoh sarapan">Sample breakfast</div><div class="entry-sub" data-en="Demo entry" data-id="Data contoh">Demo entry</div></div>
-            <strong>350 kcal</strong>
-          </div>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="section-heading" style="margin-top:0">
-          <h2 data-en="Movement log" data-id="Catatan olahraga">Movement log</h2>
-        </div>
-        <div class="muted" data-en="Track your daily activity."
-             data-id="Catat aktivitas harianmu.">Track your daily activity.</div>
-        <form id="exerciseForm" class="exercise-form">
-          <input id="exerciseName" maxlength="60" placeholder="Activity (e.g. walking)" aria-label="Activity" required>
-          <input id="exerciseCalories" type="number" min="0" max="5000" placeholder="Estimated kcal burned" aria-label="Calories burned" required>
-          <button type="submit" class="action-btn" data-en="Add activity" data-id="Tambah olahraga">Add activity</button>
-        </form>
-        <div id="exerciseList" style="margin-top:10px"></div>
-      </article>
-    </section>
-
-    <section class="progress-card">
-      <div class="progress-row">
-        <div>
-          <div class="eyebrow" style="color:#315D43"
-               data-en="YOUR JOURNEY" data-id="PERJALANANMU">YOUR JOURNEY</div>
-          <h2 style="margin-top:8px" data-en="Weight progress" data-id="Progres berat badan">Weight progress</h2>
-          <div class="muted" style="margin-top:7px"
-               data-en="Record your current weight to start tracking."
-               data-id="Catat berat badanmu untuk mulai memantau.">Record your current weight to start tracking.</div>
-        </div>
-        <form id="weightForm" style="display:flex;gap:8px;align-items:center;max-width:100%">
-          <input id="weightInput" type="number" min="20" max="500" step="0.1" placeholder="kg" aria-label="Weight in kg" style="width:100px" required>
-          <button class="action-btn" type="submit" data-en="Log weight" data-id="Catat berat">Log weight</button>
-        </form>
-      </div>
-      <div id="weightList" class="muted" style="margin-top:16px"></div>
-    </section>
-
-    <p class="notice" data-en="Prototype preview: entries are held in this page session and may disappear when the page reloads. Nutrition and exercise values are estimates. This is a tracking tool, not medical advice."
-       data-id="Pratinjau prototipe: catatan disimpan sementara selama sesi halaman dan dapat hilang saat halaman dimuat ulang. Nilai nutrisi dan olahraga adalah perkiraan. Ini alat pencatatan, bukan nasihat medis.">Prototype preview: entries are held in this page session and may disappear when the page reloads. Nutrition and exercise values are estimates. This is a tracking tool, not medical advice.</p>
-  </main>
-
-  <footer>dietora. · <span data-en="Your Journey, Your Progress"
-                            data-id="Perjalananmu, Progresmu">Your Journey, Your Progress</span></footer>
-
-  <script>
-    const $ = id => document.getElementById(id);
-    let target = 2000;
-    let foods = [{ name: "Sample breakfast", calories: 350, demo: true }];
-    let exercises = [];
-    let weights = [];
-
-    const language = $("language");
-
-    function t(en, id) {
-      return language.value === "id" ? id : en;
-    }
-
-    function setLanguage() {
-      document.documentElement.lang = language.value;
-      document.querySelectorAll("[data-en]").forEach(el => {
-        el.innerHTML = language.value === "id" ? el.dataset.id : el.dataset.en;
-      });
-      $("foodName").placeholder = t("Food name", "Nama makanan");
-      $("foodCalories").placeholder = t("Calories (kcal)", "Kalori (kkal)");
-      $("exerciseName").placeholder = t("Activity (e.g. walking)", "Aktivitas (mis. berjalan)");
-      $("exerciseCalories").placeholder = t("Estimated kcal burned", "Perkiraan kalori terbakar");
-      render();
-    }
-
-    function safeText(value) {
-      return String(value).replace(/[&<>"']/g, char => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;",
-        '"': "&quot;", "'": "&#39;"
-      })[char]);
-    }
-
-    function render() {
-      const consumed = foods.reduce((sum, food) => sum + food.calories, 0);
-      const burned = exercises.reduce((sum, item) => sum + item.calories, 0);
-      $("consumed").textContent = consumed.toLocaleString();
-      $("burned").textContent = burned.toLocaleString();
-      $("remaining").textContent = Math.max(0, target - consumed).toLocaleString();
-      $("targetDisplay").textContent = target.toLocaleString();
-      $("calorieBar").style.width = Math.min(100, consumed / target * 100) + "%";
-      $("exerciseBar").style.width = Math.min(100, burned / 500 * 100) + "%";
-
-      $("foodList").innerHTML = foods.length ? foods.map((food, i) =>
-        '<div class="entry"><div><div class="entry-name">' +
-        safeText(food.name) + '</div><div class="entry-sub">' +
-        safeText(food.demo ? t("Demo entry", "Data contoh") : t("Food entry", "Catatan makanan")) +
-        '</div></div><div style="display:flex;align-items:center;gap:6px"><strong>' +
-        food.calories.toLocaleString() + ' kcal</strong><button class="delete-btn" data-food="' +
-        i + '" aria-label="Delete food">×</button></div></div>'
-      ).join("") : '<div class="muted" style="padding:16px 0">' +
-        t("No food entries yet.", "Belum ada catatan makanan.") + '</div>';
-
-      $("exerciseList").innerHTML = exercises.map((item, i) =>
-        '<div class="entry"><div><div class="entry-name">' +
-        safeText(item.name) + '</div><div class="entry-sub">' +
-        t("Activity", "Aktivitas") + '</div></div><div style="display:flex;align-items:center;gap:6px"><strong>' +
-        item.calories.toLocaleString() + ' kcal</strong><button class="delete-btn" data-exercise="' +
-        i + '" aria-label="Delete activity">×</button></div></div>'
-      ).join("") || '<div class="muted" style="padding:12px 0">' +
-        t("No activities logged yet.", "Belum ada olahraga tercatat.") + '</div>';
-
-      $("weightList").innerHTML = weights.length
-        ? weights.map((item, i) => '<div class="entry"><span>' +
-          safeText(item.date) + '</span><strong>' + item.weight.toFixed(1) +
-          ' kg <button class="delete-btn" data-weight="' + i +
-          '" aria-label="Delete weight">×</button></strong></div>').join("")
-        : t("No weight entries yet.", "Belum ada catatan berat badan.");
-    }
-
-    $("foodForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const name = $("foodName").value.trim();
-      const calories = Number($("foodCalories").value);
-      if (!name || !Number.isFinite(calories) || calories < 0 || calories > 10000) return;
-      foods.push({ name, calories, demo: false });
-      $("foodForm").reset();
-      render();
-    });
-
-    $("exerciseForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const name = $("exerciseName").value.trim();
-      const calories = Number($("exerciseCalories").value);
-      if (!name || !Number.isFinite(calories) || calories < 0 || calories > 5000) return;
-      exercises.push({ name, calories });
-      $("exerciseForm").reset();
-      render();
-    });
-
-    $("targetForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const value = Number($("targetInput").value);
-      if (!Number.isFinite(value) || value < 500 || value > 6000) return;
-      target = value;
-      render();
-    });
-
-    $("weightForm").addEventListener("submit", event => {
-      event.preventDefault();
-      const weight = Number($("weightInput").value);
-      if (!Number.isFinite(weight) || weight < 20 || weight > 500) return;
-      weights.push({ weight, date: new Date().toLocaleDateString() });
-      $("weightInput").value = "";
-      render();
-    });
-
-    document.addEventListener("click", event => {
-      const button = event.target.closest("button");
-      if (!button) return;
-      if (button.dataset.food !== undefined) {
-        foods.splice(Number(button.dataset.food), 1);
-        render();
-      }
-      if (button.dataset.exercise !== undefined) {
-        exercises.splice(Number(button.dataset.exercise), 1);
-        render();
-      }
-      if (button.dataset.weight !== undefined) {
-        weights.splice(Number(button.dataset.weight), 1);
-        render();
-      }
-    });
-
-    language.addEventListener("change", setLanguage);
-    $("today").textContent = new Date().toLocaleDateString("en", {
-      weekday: "short", month: "short", day: "numeric", year: "numeric"
-    });
-    render();
-  </script>
+<script>
+const translations = {
+en: {
+eyebrow:"SMALL STEPS. LASTING CHANGE.",heroTitle:"Your journey,<br>made mindful.",heroDesc:"A calmer, clearer way to understand your food, build healthy habits, and move toward your goals.",heroFoot:"A little more mindful, one day at a time.",welcome:"WELCOME TO DIETORA",signIn:"Sign in to your space",signUp:"Create your Dietora account",authDesc:"Your personal space for mindful nutrition starts here.",authDescUp:"Create a demo profile to explore Dietora.",email:"Email address",password:"Password",signInBtn:"Sign in",signUpBtn:"Create account",noAccount:"New to Dietora?",hasAccount:"Already have an account?",createAccount:"Create an account",goSignIn:"Sign in instead",demoNotice:"Prototype only: login is not secure and data is not saved online.",journey:"YOUR JOURNEY STARTS HERE",introTitle:"A healthier routine, your way.",introDesc:"Explore food calories, build mindful habits, and understand your progress — without pressure to be perfect.",getStarted:"Let's get started",skipExplore:"Skip setup and explore Dietora",skip:"Skip",personalize:"PERSONALIZE YOUR EXPERIENCE",back:"Back",continue:"Continue",finish:"Finish setup",space:"YOUR MINDFUL SPACE",hello:"Hello",dashboardDesc:"Start with what you eat today. Small, steady choices can make a difference.",profileSetup:"Profile setup",foodSearch:"Find food calories",foodSearchDesc:"Search the sample list or add your own estimate.",searchPlaceholder:"Try rice, banana, egg...",searchBtn:"Search",foodLog:"Today's food log",foodLogDesc:"Your entries stay in this demo session only.",foodName:"Food name",addFood:"Add food",movement:"Movement log",movementDesc:"Record activity and estimated calories burned.",activityPlaceholder:"e.g. Walking 30 min",addActivity:"Add activity",intake:"TODAY'S CALORIE INTAKE",kcalEaten:"kcal eaten",targetHint:"Set a target or complete your profile.",setTarget:"Set calorie target",summary:"Daily summary",summaryDesc:"A simple overview of your entries.",foodEntries:"Food entries",activities:"Activities",burnedLabel:"kcal burned",profileNote:"Your profile is optional. Food search works without it.",weightProgress:"Weight progress",weightDesc:"Track your weight whenever you feel ready.",weightPlaceholder:"Weight (kg)",saveWeight:"Save weight",footer:"Dietora is a supportive tool, not medical advice. Food calories are estimates.",goalQ:"What is your main goal?",goalSub:"Choose the goal that fits you best.",lose:"Lose weight",loseSub:"Build sustainable habits",maintain:"Maintain weight",maintainSub:"Keep your current routine",gain:"Gain weight",gainSub:"Gradual, intentional gain",sexQ:"What is your sex?",sexSub:"Used for an estimated energy calculation.",male:"Male",female:"Female",ageQ:"How old are you?",ageSub:"This prototype is designed for adults.",ageLabel:"Age (years)",heightQ:"How tall are you?",heightSub:"This helps estimate your BMI.",heightLabel:"Height (cm)",weightQ:"What is your current weight?",weightSub:"You can update it later.",weightLabel:"Current weight (kg)",activityQ:"How active are you on a typical day?",activitySub:"Choose what best matches most days.",sedentary:"Mostly sitting",sedentarySub:"Little planned exercise",light:"Lightly active",lightSub:"Light exercise 1–3 days/week",moderate:"Moderately active",moderateSub:"Exercise 3–5 days/week",very:"Very active",verySub:"Hard exercise or physical work",bmi:"Estimated BMI",goal:"Goal",age:"Age",height:"Height",weight:"Weight",perServing:"estimated per serving",noResults:"No sample matches. Add your own estimate below.",add:"Add",emptyFood:"No food logged yet.",emptyExercise:"No activities logged yet.",emptyWeight:"No weight entries yet.",remove:"Remove",targetLabel:"Daily calorie target (kcal)",savedTarget:"Target saved for this demo session.",invalid:"Enter a valid number.",profileIncomplete:"Complete more profile details to estimate BMI.",there:"there"
+},
+id: {
+eyebrow:"LANGKAH KECIL. PERUBAHAN BERARTI.",heroTitle:"Perjalananmu,<br>lebih bermakna.",heroDesc:"Cara yang lebih tenang untuk memahami makanan, membangun kebiasaan sehat, dan melangkah menuju tujuanmu.",heroFoot:"Lebih sadar, sedikit demi sedikit setiap hari.",welcome:"SELAMAT DATANG DI DIETORA",signIn:"Masuk ke ruang pribadimu",signUp:"Buat akun Dietora",authDesc:"Perjalanan nutrisi yang lebih sadar dimulai di sini.",authDescUp:"Buat profil demo untuk menjelajahi Dietora.",email:"Alamat email",password:"Kata sandi",signInBtn:"Masuk",signUpBtn:"Buat akun",noAccount:"Baru di Dietora?",hasAccount:"Sudah punya akun?",createAccount:"Buat akun",goSignIn:"Masuk saja",demoNotice:"Hanya prototipe: login belum aman dan data tidak tersimpan online.",journey:"PERJALANANMU DIMULAI DI SINI",introTitle:"Rutinitas sehat, dengan caramu.",introDesc:"Cari kalori makanan, bangun kebiasaan sadar, dan pahami progres tanpa tuntutan untuk selalu sempurna.",getStarted:"Mulai sekarang",skipExplore:"Lewati pengaturan dan jelajahi Dietora",skip:"Lewati",personalize:"SESUAIKAN PENGALAMANMU",back:"Kembali",continue:"Lanjut",finish:"Selesai",space:"RUANG SADAR MILIKMU",hello:"Halo",dashboardDesc:"Mulai dari makananmu hari ini. Pilihan kecil yang konsisten bisa berarti.",profileSetup:"Atur profil",foodSearch:"Cari kalori makanan",foodSearchDesc:"Cari dari daftar contoh atau masukkan perkiraan sendiri.",searchPlaceholder:"Coba nasi, pisang, telur...",searchBtn:"Cari",foodLog:"Catatan makanan hari ini",foodLogDesc:"Catatan hanya bertahan selama sesi demo ini.",foodName:"Nama makanan",addFood:"Tambah makanan",movement:"Catatan aktivitas",movementDesc:"Catat aktivitas dan perkiraan kalori terbakar.",activityPlaceholder:"Contoh: Jalan kaki 30 menit",addActivity:"Tambah aktivitas",intake:"ASUPAN KALORI HARI INI",kcalEaten:"kkal dikonsumsi",targetHint:"Atur target atau lengkapi profilmu.",setTarget:"Atur target kalori",summary:"Ringkasan harian",summaryDesc:"Ringkasan sederhana catatanmu.",foodEntries:"Catatan makanan",activities:"Aktivitas",burnedLabel:"kkal terbakar",profileNote:"Profil bersifat opsional. Pencarian makanan tetap bisa digunakan.",weightProgress:"Progres berat badan",weightDesc:"Catat berat badan kapan pun kamu siap.",weightPlaceholder:"Berat (kg)",saveWeight:"Simpan berat",footer:"Dietora adalah alat pendukung, bukan saran medis. Kalori makanan merupakan perkiraan.",goalQ:"Apa tujuan utamamu?",goalSub:"Pilih tujuan yang paling sesuai.",lose:"Menurunkan berat",loseSub:"Membangun kebiasaan berkelanjutan",maintain:"Menjaga berat",maintainSub:"Mempertahankan rutinitas saat ini",gain:"Menaikkan berat",gainSub:"Kenaikan bertahap dan terencana",sexQ:"Apa jenis kelaminmu?",sexSub:"Digunakan untuk perkiraan kebutuhan energi.",male:"Laki-laki",female:"Perempuan",ageQ:"Berapa usiamu?",ageSub:"Prototipe ini dirancang untuk orang dewasa.",ageLabel:"Usia (tahun)",heightQ:"Berapa tinggi badanmu?",heightSub:"Membantu memperkirakan BMI.",heightLabel:"Tinggi badan (cm)",weightQ:"Berapa berat badanmu saat ini?",weightSub:"Kamu bisa memperbaruinya nanti.",weightLabel:"Berat saat ini (kg)",activityQ:"Seberapa aktif kamu sehari-hari?",activitySub:"Pilih yang paling sesuai dengan sebagian besar harimu.",sedentary:"Lebih banyak duduk",sedentarySub:"Jarang olahraga terencana",light:"Aktivitas ringan",lightSub:"Olahraga ringan 1–3 hari/minggu",moderate:"Cukup aktif",moderateSub:"Olahraga 3–5 hari/minggu",very:"Sangat aktif",verySub:"Olahraga berat atau kerja fisik",bmi:"Perkiraan BMI",goal:"Tujuan",age:"Usia",height:"Tinggi",weight:"Berat",perServing:"perkiraan per porsi",noResults:"Tidak ada yang cocok. Tambahkan perkiraan sendiri di bawah.",add:"Tambah",emptyFood:"Belum ada makanan dicatat.",emptyExercise:"Belum ada aktivitas dicatat.",emptyWeight:"Belum ada catatan berat.",remove:"Hapus",targetLabel:"Target kalori harian (kkal)",savedTarget:"Target tersimpan untuk sesi demo ini.",invalid:"Masukkan angka yang valid.",profileIncomplete:"Lengkapi profil untuk memperkirakan BMI.",there:"di sini"
+}};
+let lang="en", signup=false, step=0, target=0;
+let profile={goal:"",sex:"",age:"",height:"",weight:"",activity:""};
+let foods=[
+["White rice, 150 g","Nasi putih, 150 g",195,"rice nasi"],
+["Banana, 1 medium","Pisang, 1 buah sedang",105,"banana pisang"],
+["Boiled egg, 1 large","Telur rebus, 1 butir",78,"egg telur"],
+["Cooked chicken breast, 100 g","Dada ayam matang, 100 g",165,"chicken ayam"],
+["Fried tempeh, 1 slice","Tempe goreng, 1 potong",90,"tempe"],
+["Tofu, 100 g","Tahu, 100 g",80,"tofu tahu"],
+["Papaya, 100 g","Pepaya, 100 g",43,"papaya pepaya"],
+["Instant noodles, 1 pack","Mi instan, 1 bungkus",380,"noodle mie mi"],
+["Grilled fish, 100 g","Ikan bakar, 100 g",140,"fish ikan"],
+["Cooked oatmeal, 1 cup","Oatmeal matang, 1 cangkir",154,"oat oatmeal"]
+];
+let foodLog=[], activityLog=[], weightLog=[];
+const $=id=>document.getElementById(id);
+const tr=key=>translations[lang][key]||translations.en[key]||key;
+function show(id){
+["auth","intro","onboarding","dashboard"].forEach(x=>$(x).classList.toggle("hidden",x!==id));
+window.scrollTo(0,0);
+}
+function setLang(next){
+lang=next;
+document.documentElement.lang=lang;
+$("lang-en").classList.toggle("active",lang==="en");
+$("lang-id").classList.toggle("active",lang==="id");
+document.querySelectorAll("[data-t]").forEach(el=>el.textContent=tr(el.dataset.t));
+document.querySelectorAll("[data-html]").forEach(el=>el.innerHTML=tr(el.dataset.html));
+document.querySelectorAll("[data-ph]").forEach(el=>el.placeholder=tr(el.dataset.ph));
+updateAuthText();
+renderQuestion();
+renderResults($("search").value);
+renderLogs();
+updateCalorie();
+}
+function updateAuthText(){
+$("auth-title").textContent=tr(signup?"signUp":"signIn");
+$("auth-desc").textContent=tr(signup?"authDescUp":"authDesc");
+$("auth-submit").textContent=tr(signup?"signUpBtn":"signInBtn");
+$("auth-toggle-text").textContent=tr(signup?"hasAccount":"noAccount");
+$("auth-toggle").textContent=tr(signup?"goSignIn":"createAccount");
+}
+$("lang-en").onclick=()=>setLang("en");
+$("lang-id").onclick=()=>setLang("id");
+$("auth-toggle").onclick=()=>{signup=!signup;updateAuthText()};
+$("auth-form").onsubmit=e=>{
+e.preventDefault();
+const email=$("email").value.trim();
+$("username").textContent=email.split("@")[0].replace(/[._-]/g," ")||tr("there");
+show("intro");
+};
+$("start-profile").onclick=()=>{step=0;renderQuestion();show("onboarding")};
+$("skip-intro").onclick=()=>{renderProfileSummary();show("dashboard")};
+$("skip-profile").onclick=()=>{renderProfileSummary();show("dashboard")};
+$("edit-profile").onclick=()=>{step=0;renderQuestion();show("onboarding")};
+const steps=["goal","sex","age","height","weight","activity"];
+function makeOption(key,val,icon,sub=""){
+return `<button class="option ${profile[key]===val?"selected":""}" type="button" data-key="${key}" data-value="${val}"><strong>${icon} ${tr(val)}</strong>${sub?`<small>${tr(sub)}</small>`:""}</button>`;
+}
+function renderQuestion(){
+if(!$("question"))return;
+const key=steps[step];
+$("step-count").textContent=`${step+1} / ${steps.length}`;
+$("progress-fill").style.width=`${(step+1)/steps.length*100}%`;
+$("back").style.visibility=step===0?"hidden":"visible";
+$("next").textContent=tr(step===steps.length-1?"finish":"continue");
+let html="";
+if(key==="goal")html=`<div class="icon">🎯</div><p class="label-top">${tr("personalize")}</p><h2>${tr("goalQ")}</h2><p class="muted">${tr("goalSub")}</p><div class="options">${makeOption("goal","lose","↘","loseSub")}${makeOption("goal","maintain","◉","maintainSub")}${makeOption("goal","gain","↗","gainSub")}</div>`;
+if(key==="sex")html=`<div class="icon">✳️</div><p class="label-top">${tr("personalize")}</p><h2>${tr("sexQ")}</h2><p class="muted">${tr("sexSub")}</p><div class="options">${makeOption("sex","male","♂")}${makeOption("sex","female","♀")}</div>`;
+if(key==="age")html=`<div class="icon">🎂</div><p class="label-top">${tr("personalize")}</p><h2>${tr("ageQ")}</h2><p class="muted">${tr("ageSub")}</p><label class="field">${tr("ageLabel")}<input id="answer" type="number" min="18" max="100" value="${profile.age}" placeholder="23"></label>`;
+if(key==="height")html=`<div class="icon">📏</div><p class="label-top">${tr("personalize")}</p><h2>${tr("heightQ")}</h2><p class="muted">${tr("heightSub")}</p><label class="field">${tr("heightLabel")}<input id="answer" type="number" min="100" max="250" value="${profile.height}" placeholder="170"></label>`;
+if(key==="weight")html=`<div class="icon">⚖️</div><p class="label-top">${tr("personalize")}</p><h2>${tr("weightQ")}</h2><p class="muted">${tr("weightSub")}</p><label class="field">${tr("weightLabel")}<input id="answer" type="number" min="25" max="350" step=".1" value="${profile.weight}" placeholder="70"></label>`;
+if(key==="activity")html=`<div class="icon">🚶</div><p class="label-top">${tr("personalize")}</p><h2>${tr("activityQ")}</h2><p class="muted">${tr("activitySub")}</p><div class="options">${makeOption("activity","sedentary","🪑","sedentarySub")}${makeOption("activity","light","🚶","lightSub")}${makeOption("activity","moderate","🏃","moderateSub")}${makeOption("activity","very","🏋️","verySub")}</div>`;
+$("question").innerHTML=html;
+$("question").querySelectorAll("[data-key]").forEach(b=>b.onclick=()=>{profile[b.dataset.key]=b.dataset.value;renderQuestion()});
+}
+function saveAnswer(){
+const key=steps[step];
+if(["age","height","weight"].includes(key)&&$("answer"))profile[key]=$("answer").value;
+}
+$("back").onclick=()=>{saveAnswer();if(step>0)step--;renderQuestion()};
+$("next").onclick=()=>{
+saveAnswer();
+if(step<steps.length-1){step++;renderQuestion();return}
+calculateTarget();
+renderProfileSummary();
+show("dashboard");
+updateCalorie();
+};
+function calculateTarget(){
+const age=+profile.age,h=+profile.height,w=+profile.weight;
+if(age>=18&&h>0&&w>0&&profile.sex&&profile.activity){
+const bmr=10*w+6.25*h-5*age+(profile.sex==="male"?5:-161);
+const factor={sedentary:1.2,light:1.375,moderate:1.55,very:1.725}[profile.activity]||1.2;
+target=Math.max(1200,Math.round((bmr*factor+(profile.goal==="lose"?-300:profile.goal==="gain"?200:0))/50)*50);
+}
+}
+function renderProfileSummary(){
+const parts=[];
+if(profile.goal)parts.push(`${tr("goal")}: ${tr(profile.goal)}`);
+if(profile.age)parts.push(`${tr("age")}: ${profile.age}`);
+if(profile.height&&profile.weight)parts.push(`${tr("bmi")}: ${(Number(profile.weight)/(Number(profile.height)/100)**2).toFixed(1)}`);
+if(profile.weight)parts.push(`${tr("weight")}: ${profile.weight} kg`);
+$("profile-summary").textContent=parts.join(" · ")||tr("profileIncomplete");
+}
+$("set-target").onclick=()=>{
+const value=prompt(tr("targetLabel"),String(target||2000));
+if(value===null)return;
+if(!Number.isFinite(+value)||+value<500||+value>10000){alert(tr("invalid"));return}
+target=Math.round(+value);
+updateCalorie();
+alert(tr("savedTarget"));
+};
+$("search-button").onclick=()=>renderResults($("search").value);
+$("search").oninput=()=>renderResults($("search").value);
+$("search").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();renderResults($("search").value)}};
+function renderResults(query=""){
+const q=query.trim().toLowerCase();
+const matches=foods.filter(f=>!q||f.join(" ").toLowerCase().includes(q));
+$("results").innerHTML=matches.length?matches.map(f=>`<div class="result"><div><strong>${lang==="id"?f[1]:f[0]}</strong><small>${f[2]} kcal · ${tr("perServing")}</small></div><div><span class="cal">${f[2]}</span> <button type="button" data-food="${foods.indexOf(f)}">${tr("add")}</button></div></div>`).join(""):`<div class="empty">${tr("noResults")}</div>`;
+$("results").querySelectorAll("[data-food]").forEach(b=>b.onclick=()=>{
+const f=foods[+b.dataset.food];
+foodLog.push({name:lang==="id"?f[1]:f[0],cal:f[2]});
+renderLogs();updateCalorie();
+});
+}
+$("custom-food").onsubmit=e=>{
+e.preventDefault();
+const name=$("custom-name").value.trim(),cal=+$("custom-cal").value;
+if(!name||cal<0)return;
+foodLog.push({name,cal});
+$("custom-name").value="";$("custom-cal").value="";
+renderLogs();updateCalorie();
+};
+$("exercise-form").onsubmit=e=>{
+e.preventDefault();
+const name=$("activity-name").value.trim(),cal=+$("activity-cal").value;
+if(!name||cal<0)return;
+activityLog.push({name,cal});
+$("activity-name").value="";$("activity-cal").value="";
+renderLogs();updateCalorie();
+};
+$("weight-form").onsubmit=e=>{
+e.preventDefault();
+const w=+$("weight").value;
+if(w<20||w>400)return;
+weightLog.push(w);
+$("weight").value="";
+renderLogs();
+};
+function safe(text){
+return String(text).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function renderLogs(){
+$("food-logs").innerHTML=foodLog.length?foodLog.map((x,i)=>`<div class="result"><div><strong>${safe(x.name)}</strong><small>${tr("foodLog")}</small></div><div><span class="cal">${x.cal} kcal</span> <button data-rf="${i}">${tr("remove")}</button></div></div>`).join(""):`<div class="empty">${tr("emptyFood")}</div>`;
+$("exercise-logs").innerHTML=activityLog.length?activityLog.map((x,i)=>`<div class="result"><div><strong>${safe(x.name)}</strong><small>${tr("movement")}</small></div><div><span class="cal">−${x.cal} kcal</span> <button data-ra="${i}">${tr("remove")}</button></div></div>`).join(""):`<div class="empty">${tr("emptyExercise")}</div>`;
+$("weight-logs").innerHTML=weightLog.length?weightLog.map((w,i)=>`<div class="result"><strong>${w} kg</strong><small>${tr("weight")} ${i+1}</small></div>`).join(""):`<div class="empty">${tr("emptyWeight")}</div>`;
+$("food-count").textContent=foodLog.length;
+$("activity-count").textContent=activityLog.length;
+$("burned").textContent=activityLog.reduce((s,x)=>s+x.cal,0);
+$("food-logs").querySelectorAll("[data-rf]").forEach(b=>b.onclick=()=>{foodLog.splice(+b.dataset.rf,1);renderLogs();updateCalorie()});
+$("exercise-logs").querySelectorAll("[data-ra]").forEach(b=>b.onclick=()=>{activityLog.splice(+b.dataset.ra,1);renderLogs();updateCalorie()});
+}
+function updateCalorie(){
+const eaten=foodLog.reduce((s,x)=>s+x.cal,0);
+$("eaten").textContent=eaten.toLocaleString(lang==="id"?"id-ID":"en-US");
+$("calorie-progress").style.width=target?Math.min(100,eaten/target*100)+"%":"0%";
+$("target-status").textContent=target?`${Math.max(0,target-eaten)} kcal ${lang==="id"?"tersisa dari target":"remaining of target"} (${target} kcal)`:tr("targetHint");
+}
+setLang("en");
+</script>
 </body>
 </html>
