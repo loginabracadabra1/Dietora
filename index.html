@@ -3,479 +3,165 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dietora — Mindful Nutrition</title>
 <style>
 :root {
-  --green: #315D43;
-  --sage: #A9C4A8;
-  --cream: #FAF8F2;
-  --ink: #243329;
-  --muted: #758176;
-  --line: #E4E9E0;
-  --soft: #F0F4EC;
-  --white: #FFFFFF;
+  --green:#315D43; --sage:#A9C4A8; --cream:#FAF8F2;
+  --ink:#243329; --muted:#758176; --line:#E4E9E0;
+  --soft:#F0F4EC; --white:#fff;
 }
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  background: var(--cream);
-  color: var(--ink);
-  font-family: Arial, sans-serif;
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+header{max-width:1100px;margin:auto;padding:17px 20px;display:flex;justify-content:space-between;align-items:center}
+.brand{display:flex;align-items:center;gap:10px;font-size:23px;font-weight:800;color:var(--green)}
+.logo{width:35px;height:35px;border-radius:12px;background:var(--green);color:white;display:grid;place-items:center}
+.languages{display:flex;gap:4px;background:white;border:1px solid var(--line);border-radius:30px;padding:4px}
+.languages button{border:0;background:transparent;color:var(--muted);padding:7px 10px;border-radius:20px;font-size:12px;font-weight:bold}
+.languages button.active{background:var(--green);color:white}
+main{max-width:1100px;margin:auto;padding:15px 20px 45px}
+h1,h2,h3,p{margin-top:0}
+h2{font-size:27px;line-height:1.25;margin-bottom:8px}
+h3{font-size:16px;margin-bottom:7px}
+p{line-height:1.6}
+.muted,.panel-desc{color:var(--muted);font-size:12px;line-height:1.65}
+.panel-desc{margin-bottom:15px}
+.btn{border:0;border-radius:12px;background:var(--green);color:white;padding:12px 16px;font-size:13px;font-weight:700}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.secondary{background:var(--soft);color:var(--green)}
+.link{background:none;border:0;color:var(--green);font-weight:bold;padding:8px}
+.card,.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 8px 25px #24463108}
+.auth-layout{min-height:70vh;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.hero{background:var(--green);color:var(--cream);padding:35px 25px;border-radius:24px;text-align:center}
+.eyebrow,.label-top{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--green);margin-bottom:10px}
+.hero .eyebrow{color:var(--sage)}
+.hero h1{font-size:clamp(32px,4vw,45px);font-weight:600;line-height:1.15}
+.hero p:not(.eyebrow){font-size:13px;color:#e4eae2;line-height:1.8}
+.hero-foot{border-top:1px solid #ffffff30;padding-top:14px;margin-top:20px;font-size:11px;color:#d7e2d5}
+.field{display:block;font-size:12px;font-weight:bold;margin-top:15px}
+.field input,.input{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fefefc;margin-top:7px;min-width:0}
+.full{width:100%;margin-top:18px}
+.auth-foot{text-align:center;font-size:12px;color:var(--muted);margin-top:16px}
+.notice{background:#fff5e5;color:#795a22;padding:11px;border-radius:10px;font-size:11px;line-height:1.6;margin-top:14px}
+.onboard{min-height:60vh;display:grid;place-items:center}
+.question-card{width:100%;max-width:560px}
+.progress{height:5px;background:#eaf0e7;border-radius:8px;overflow:hidden;margin:15px 0 25px}
+.progress div{height:100%;background:var(--green)}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:18px}
+.option{background:white;border:1px solid var(--line);border-radius:12px;padding:14px;text-align:left;color:var(--ink)}
+.option.selected{border-color:var(--green);background:var(--soft)}
+.option strong,.option small{display:block}
+.option small{font-size:11px;color:var(--muted);margin-top:5px}
+.actions{display:flex;justify-content:space-between;gap:10px;margin-top:25px}
+.dashboard-head{display:flex;justify-content:space-between;align-items:center;gap:15px;margin:10px 0 18px}
+.dashboard-head h2{margin-bottom:4px}
+.dashboard-grid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.85fr);gap:16px;align-items:start}
+.panel{padding:19px;margin-bottom:15px;box-shadow:none}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.panel-head h3{margin-bottom:5px}
+.text-button{border:0;background:none;color:var(--green);font-size:12px;font-weight:bold;padding:6px}
+.date-strip{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:12px}
+.date-day{min-width:0;padding:8px 1px;border:1px solid transparent;background:#f7f9f4;border-radius:11px;text-align:center;color:var(--ink)}
+.date-day .day-name{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
+.date-day .day-number{display:block;font-size:15px;font-weight:800}
+.date-day.selected{background:var(--green);color:white}
+.date-day.selected .day-name{color:#dce8dc}
+.date-day.today:not(.selected){border-color:var(--sage)}
+.calorie-card{background:var(--green);color:white;border-radius:19px;padding:21px;margin-bottom:15px}
+.calorie-card .panel-desc{color:#d8e4d6}
+.calorie-big{font-size:33px;font-weight:800;margin:0}
+.calorie-big small{font-size:12px;font-weight:normal;color:#d8e4d6}
+.track{height:7px;background:#ffffff35;border-radius:10px;overflow:hidden;margin:13px 0}
+.track div{height:100%;width:0;background:var(--sage);transition:width .2s}
+.macro-list{display:grid;gap:16px}
+.macro-top{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-bottom:7px}
+.macro-top strong{color:var(--green)}
+.macro-bar{height:7px;background:#edf1e9;border-radius:10px;overflow:hidden}
+.macro-bar div{height:100%;background:var(--green);border-radius:10px}
+.macro-edit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:18px}
+.macro-edit label{font-size:10px;color:var(--muted)}
+.macro-edit input{width:100%;padding:9px 5px;border:1px solid var(--line);border-radius:9px;margin-top:5px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-top:12px}
+.stat{background:var(--soft);padding:11px 7px;border-radius:11px}
+.stat strong{display:block;color:var(--green);font-size:16px}
+.stat span{font-size:10px;color:var(--muted)}
+.cal-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.choice{border:1px solid var(--line);border-radius:14px;background:#f8faf6;padding:17px 10px;text-align:left;color:var(--ink)}
+.choice .choice-icon{font-size:24px;display:block;margin-bottom:10px}
+.choice strong{display:block;font-size:13px}
+.choice small{display:block;color:var(--muted);font-size:11px;line-height:1.5;margin-top:5px}
+.subview{margin-top:17px;padding-top:17px;border-top:1px solid var(--line)}
+.food-row{display:grid;grid-template-columns:minmax(0,1fr) 115px;gap:8px;margin-bottom:9px}
+.food-row input{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;min-width:0}
+.food-row .remove-row{grid-column:1/-1;justify-self:end}
+.total-box{background:var(--soft);border-radius:13px;padding:14px;margin:12px 0}
+.total-box .total-number{font-size:25px;color:var(--green);font-weight:800;margin:3px 0}
+.scanner-box{padding:18px;background:#f5f8f1;border:1px solid #dce7dc;border-radius:16px;text-align:center}
+.scanner-box p{font-size:12px;color:var(--muted)}
+.scanner-button,.gallery-button{display:block;width:100%;padding:12px;border-radius:11px;margin-top:9px;font-size:13px;font-weight:bold;cursor:pointer}
+.scanner-button{background:var(--green);color:white}
+.gallery-button{background:white;border:1px solid #cbd9ca;color:var(--green)}
+.photo-preview{margin-top:12px}
+.photo-preview img{width:100%;max-height:260px;object-fit:contain;border-radius:12px}
+.small-note{font-size:11px;color:var(--muted);line-height:1.6}
+.logs{display:grid;gap:8px}
+.log-row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#f8faf6;border:1px solid #eef1ea;border-radius:11px;padding:11px}
+.log-row strong{font-size:12px;overflow-wrap:anywhere}
+.log-row small{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+.log-value{font-size:12px;font-weight:bold;color:var(--green);white-space:nowrap}
+.remove-button{border:0;background:#e6efe3;color:var(--green);border-radius:7px;padding:6px;font-size:10px;margin-left:5px}
+.empty{background:#f8faf6;border-radius:10px;padding:13px;font-size:12px;color:var(--muted)}
+.form-row{display:grid;grid-template-columns:minmax(0,1fr) 90px;gap:8px;margin-top:12px}
+.form-row input{width:100%;min-width:0;padding:11px;border:1px solid var(--line);border-radius:10px}
+.form-row button{grid-column:1/-1}
+.modal-backdrop{position:fixed;inset:0;background:#15251bd1;z-index:10;display:flex;align-items:center;justify-content:center;padding:15px}
+.modal{width:100%;max-width:580px;max-height:90vh;overflow:auto;background:var(--cream);border-radius:20px;padding:20px}
+.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
+.close-button{border:0;background:var(--soft);color:var(--green);border-radius:10px;padding:9px 12px;font-weight:bold}
+.month-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
+.month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.month-label{text-align:center;color:var(--muted);font-size:10px;padding:6px 0}
+.month-date{border:0;background:white;border-radius:9px;min-height:38px;color:var(--ink)}
+.month-date.selected{background:var(--green);color:white}
+.month-date.has-data:not(.selected){border:1px solid var(--sage)}
+.history-chart{height:190px;display:flex;align-items:stretch;gap:8px;border-bottom:1px solid var(--line);padding:12px 0 0}
+.chart-col{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px}
+.chart-value{font-size:9px;color:var(--muted);min-height:12px;text-align:center}
+.chart-bar-area{height:125px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.chart-bar{width:min(27px,75%);min-height:3px;border-radius:6px 6px 0 0;background:var(--sage)}
+.chart-bar.has-value{background:var(--green)}
+.chart-day{font-size:10px;color:var(--muted);padding:8px 0}
+.history-range{display:flex;gap:7px;margin-bottom:12px}
+.history-range button{flex:1;border:1px solid var(--line);border-radius:9px;background:white;padding:9px 4px;font-size:11px;color:var(--green)}
+.history-range button.active{background:var(--green);color:white}
+footer{text-align:center;color:#8a9588;font-size:11px;padding:20px}
+@media(max-width:760px){
+ main{padding:10px 13px 30px}
+ .auth-layout,.dashboard-grid{grid-template-columns:1fr}
+ .auth-layout{gap:16px}
+ .hero{padding:25px 18px}
+ .hero h1{font-size:34px}
+ .dashboard-head{align-items:flex-start}
+ .dashboard-head .btn{white-space:nowrap}
+ .dashboard-grid{gap:0}
 }
-button, input { font: inherit; }
-button { cursor: pointer; }
-.hidden { display: none !important; }
-header {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+@media(max-width:430px){
+ header{padding:14px}
+ .card{padding:20px}
+ .options{grid-template-columns:1fr}
+ .cal-choice{gap:7px}
+ .panel{padding:15px}
+ .date-strip{gap:3px}
+ .date-day{padding:8px 0}
+ .date-day .day-name{font-size:9px}
+ .date-day .day-number{font-size:14px}
+ .food-row{grid-template-columns:minmax(0,1fr) 95px}
+ .macro-edit{gap:5px}
+ .macro-edit input{font-size:11px}
 }
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--green);
-  font-size: 23px;
-  font-weight: 800;
-}
-.logo {
-  width: 35px;
-  height: 35px;
-  border-radius: 12px;
-  background: var(--green);
-  color: white;
-  display: grid;
-  place-items: center;
-}
-.languages {
-  display: flex;
-  gap: 4px;
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 30px;
-  padding: 4px;
-}
-.languages button {
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  padding: 7px 11px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.languages button.active {
-  background: var(--green);
-  color: white;
-}
-main {
-  max-width: 1100px;
-  margin: auto;
-  padding: 20px 22px 55px;
-}
-.auth-layout {
-  min-height: 75vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: center;
-  gap: 35px;
-}
-.hero {
-  background: var(--green);
-  color: var(--cream);
-  max-width: 420px;
-  margin: auto;
-  padding: 25px 22px;
-  border-radius: 23px;
-  text-align: center;
-}
-.eyebrow {
-  color: var(--sage);
-  font-size: 10px;
-  letter-spacing: 2px;
-  font-weight: 800;
-  margin: 0 0 14px;
-}
-.hero h1 {
-  font-size: clamp(30px, 4vw, 40px);
-  line-height: 1.16;
-  font-weight: 600;
-  margin: 0 0 14px;
-}
-.hero p:not(.eyebrow) {
-  color: #E4EAE2;
-  font-size: 13px;
-  line-height: 1.75;
-  max-width: 320px;
-  margin: 0 auto;
-}
-.hero-foot {
-  border-top: 1px solid #ffffff30;
-  padding-top: 14px;
-  margin-top: 20px;
-  font-size: 11px;
-  color: #D7E2D5;
-}
-.card {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 22px;
-  padding: 28px;
-  box-shadow: 0 12px 35px #2446310c;
-  width: 100%;
-  max-width: 440px;
-  margin: auto;
-}
-.label-top {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  color: var(--green);
-  margin: 0 0 10px;
-}
-h2 {
-  font-size: 28px;
-  line-height: 1.2;
-  margin: 0 0 10px;
-}
-.muted {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.7;
-}
-.field {
-  display: block;
-  margin-top: 16px;
-  font-size: 12px;
-  font-weight: 700;
-}
-.field input, .search-input, .mini-input {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  margin-top: 7px;
-  background: #FEFEFC;
-  color: var(--ink);
-}
-.btn {
-  border: 0;
-  border-radius: 12px;
-  padding: 13px 17px;
-  background: var(--green);
-  color: white;
-  font-size: 13px;
-  font-weight: 750;
-}
-.full { width: 100%; margin-top: 20px; }
-.secondary { background: var(--soft); color: var(--green); }
-.link {
-  background: none;
-  border: 0;
-  color: var(--green);
-  font-weight: 800;
-  padding: 5px;
-}
-.auth-foot {
-  text-align: center;
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 18px;
-}
-.notice {
-  font-size: 11px;
-  color: #795A22;
-  background: #FFF5E5;
-  padding: 11px;
-  border-radius: 10px;
-  margin-top: 15px;
-  line-height: 1.6;
-}
-.onboard {
-  min-height: 65vh;
-  display: grid;
-  place-items: center;
-  padding: 20px 0;
-}
-.question-card { max-width: 560px; position: relative; }
-.skip {
-  position: absolute;
-  right: 22px;
-  top: 22px;
-  border: 0;
-  background: none;
-  color: var(--muted);
-  font-size: 12px;
-  font-weight: 800;
-}
-.progress-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  font-weight: 800;
-  color: var(--muted);
-  padding-right: 48px;
-  margin-bottom: 10px;
-}
-.progress {
-  height: 5px;
-  background: #EAF0E7;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 25px;
-}
-.progress div {
-  height: 100%;
-  background: var(--green);
-}
-.icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 15px;
-  background: var(--soft);
-  display: grid;
-  place-items: center;
-  font-size: 22px;
-  margin-bottom: 18px;
-}
-.options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 22px;
-}
-.option {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  padding: 15px;
-  text-align: left;
-  color: var(--ink);
-  min-height: 58px;
-}
-.option strong { font-size: 13px; display: block; }
-.option small {
-  font-size: 11px;
-  color: var(--muted);
-  display: block;
-  margin-top: 5px;
-}
-.option.selected {
-  border-color: var(--green);
-  background: var(--soft);
-}
-.actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: 25px;
-}
-.actions button { min-width: 110px; }
-.dashboard-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 18px;
-  margin: 20px 0 25px;
-}
-.dashboard-head h2 { margin-bottom: 5px; }
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1.4fr .8fr;
-  gap: 17px;
-  align-items: start;
-}
-.panel {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 19px;
-  padding: 21px;
-  margin-bottom: 17px;
-}
-.panel h3 { font-size: 16px; margin: 0 0 7px; }
-.panel-desc {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.6;
-  margin: 0 0 15px;
-}
-.search-row { display: flex; gap: 8px; }
-.search-row .search-input { margin: 0; min-width: 0; }
-.results, .logs { display: grid; gap: 8px; margin-top: 12px; }
-.result {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  background: #F8FAF6;
-  border: 1px solid #EEF1EA;
-  border-radius: 12px;
-  padding: 11px;
-}
-.result strong { font-size: 12px; display: block; }
-.result small {
-  font-size: 10px;
-  color: var(--muted);
-  display: block;
-  margin-top: 4px;
-}
-.result .cal {
-  color: var(--green);
-  font-size: 12px;
-  font-weight: 800;
-  white-space: nowrap;
-}
-.result button {
-  border: 0;
-  background: #E6EFE3;
-  color: var(--green);
-  border-radius: 8px;
-  padding: 7px;
-  font-size: 10px;
-  font-weight: 800;
-}
-.empty {
-  font-size: 12px;
-  color: var(--muted);
-  background: #F8FAF6;
-  border-radius: 10px;
-  padding: 13px;
-}
-.calorie-card {
-  background: var(--green);
-  color: white;
-  border-radius: 19px;
-  padding: 21px;
-  margin-bottom: 17px;
-}
-.calorie-card .panel-desc { color: #D8E4D6; }
-.calorie-big { font-size: 34px; font-weight: 800; margin: 0; }
-.calorie-big span {
-  font-size: 12px;
-  font-weight: 500;
-  color: #D8E4D6;
-}
-.track {
-  height: 7px;
-  background: #ffffff30;
-  border-radius: 10px;
-  margin: 14px 0;
-  overflow: hidden;
-}
-.track div { height: 100%; width: 0; background: var(--sage); }
-.stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; margin-top: 14px; }
-.stat { background: var(--soft); padding: 12px 8px; border-radius: 11px; }
-.stat strong { display: block; color: var(--green); font-size: 16px; }
-.stat span { font-size: 9px; color: var(--muted); }
-.note {
-  background: var(--soft);
-  padding: 12px;
-  border-radius: 11px;
-  color: #586758;
-  font-size: 11px;
-  line-height: 1.6;
-  margin-top: 13px;
-}
-.mini-form { display: grid; grid-template-columns: 1fr 90px; gap: 8px; margin-top: 12px; }
-.mini-input { margin: 0; min-width: 0; padding: 11px; }
-.mini-form button { grid-column: 1 / -1; }
-footer { text-align: center; color: #8A9588; font-size: 11px; padding: 20px; }
-@media(max-width:760px) {
-  .auth-layout, .dashboard-grid { grid-template-columns: 1fr; }
-  .auth-layout { gap: 18px; }
-  .hero { padding: 23px 20px; }
-  .hero h1 { font-size: 34px; }
-  .dashboard-head { align-items: start; flex-direction: column; }
-}
-@media(max-width:430px) {
-  header { padding: 15px 16px; }
-  main { padding: 15px 12px 35px; }
-  .card { padding: 21px; }
-  .options { grid-template-columns: 1fr; }
-  .search-row { flex-direction: column; }
-  .search-row .btn { width: 100%; }
-}
-  
-/* Dietora meal scanner */
-.scanner-box {
-  margin: 22px 0;
-  padding: 24px 18px;
-  border: 1px solid #dce7dc;
-  border-radius: 20px;
-  background: linear-gradient(145deg, #f5f8f1, #ffffff);
-  text-align: center;
-}
-
-.scanner-icon {
-  width: 58px;
-  height: 58px;
-  margin: 0 auto 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 18px;
-  background: #e4eee2;
-  font-size: 28px;
-}
-
-.scanner-box h3 {
-  margin: 8px 0;
-  color: #315d43;
-  font-size: 20px;
-}
-
-.scanner-box p {
-  color: #667568;
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.scanner-button,
-.gallery-button {
-  display: block;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 12px;
-  padding: 13px 16px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.scanner-button {
-  background: #315d43;
-  color: white;
-}
-
-.gallery-button {
-  border: 1px solid #cbd9ca;
-  background: white;
-  color: #315d43;
-}
-
-.photo-preview {
-  margin-top: 16px;
-}
-
-.photo-preview img {
-  display: block;
-  width: 100%;
-  max-height: 300px;
-  object-fit: contain;
-  border-radius: 14px;
-  background: #e9eee7;
-}
-
-.scanner-note {
-  margin-bottom: 0;
-  font-size: 12px !important;
-}
-
 </style>
 </head>
 <body>
@@ -486,428 +172,529 @@ footer { text-align: center; color: #8A9588; font-size: 11px; padding: 20px; }
     <button id="lang-id" type="button">ID</button>
   </div>
 </header>
+
 <main>
 <section id="auth" class="auth-layout">
   <div class="hero">
-    <p class="eyebrow" data-t="eyebrow">SMALL STEPS. LASTING CHANGE.</p>
-    <h1 data-html="heroTitle">Your journey,<br>made mindful.</h1>
-    <p data-t="heroDesc">A calmer, clearer way to understand your food, build healthy habits, and move toward your goals.</p>
-    <div class="hero-foot" data-t="heroFoot">A little more mindful, one day at a time.</div>
+    <p class="eyebrow">SMALL STEPS. LASTING CHANGE.</p>
+    <h1>Your journey,<br>made mindful.</h1>
+    <p>A calmer, clearer way to understand your food, build healthy habits, and move toward your goals.</p>
+    <div class="hero-foot">A little more mindful, one day at a time.</div>
   </div>
   <div class="card">
-    <p class="label-top" data-t="welcome">WELCOME TO DIETORA</p>
+    <p class="label-top">WELCOME TO DIETORA</p>
     <h2 id="auth-title">Sign in to your space</h2>
     <p class="muted" id="auth-desc">Your personal space for mindful nutrition starts here.</p>
     <form id="auth-form">
-      <label class="field"><span data-t="email">Email address</span><input id="email" type="email" placeholder="you@example.com" required></label>
-      <label class="field"><span data-t="password">Password</span><input id="password" type="password" minlength="4" required></label>
+      <label class="field">Email address<input id="email" type="email" placeholder="you@example.com" required></label>
+      <label class="field">Password<input id="password" type="password" minlength="4" required></label>
       <button class="btn full" id="auth-submit" type="submit">Sign in</button>
     </form>
     <div class="auth-foot"><span id="auth-toggle-text">New to Dietora?</span> <button class="link" id="auth-toggle" type="button">Create an account</button></div>
-    <div class="notice" data-t="demoNotice">Prototype only: login is not secure and data is not saved online.</div>
+    <div class="notice">Prototype only: login is not secure and data is not saved online.</div>
   </div>
 </section>
 
 <section id="intro" class="onboard hidden">
-  <div class="card" style="text-align:center">
-    <div class="icon" style="margin:0 auto 18px">🌿</div>
-    <p class="label-top" data-t="journey">YOUR JOURNEY STARTS HERE</p>
-    <h2 data-t="introTitle">A healthier routine, your way.</h2>
-    <p class="muted" data-t="introDesc">Explore food calories, build mindful habits, and understand your progress.</p>
-    <button class="btn full" id="start-profile" data-t="getStarted" type="button">Let's get started</button>
-    <button class="link" id="skip-intro" data-t="skipExplore" type="button">Skip setup and explore Dietora</button>
+  <div class="card" style="max-width:520px;text-align:center">
+    <div style="font-size:35px;margin-bottom:12px">🌿</div>
+    <p class="label-top">YOUR JOURNEY STARTS HERE</p>
+    <h2>A healthier routine, your way.</h2>
+    <p class="muted">Explore food calories, build mindful habits, and understand your progress without pressure to be perfect.</p>
+    <button class="btn full" id="start-profile" type="button">Let's get started</button>
+    <button class="link" id="skip-intro" type="button">Skip setup and explore Dietora</button>
   </div>
 </section>
 
 <section id="onboarding" class="onboard hidden">
   <div class="card question-card">
-    <button class="skip" id="skip-profile" type="button" data-t="skip">Skip</button>
-    <div class="progress-label"><span data-t="personalize">PERSONALIZE YOUR EXPERIENCE</span><span id="step-count">1 / 6</span></div>
+    <div class="label-top">PERSONALIZE YOUR EXPERIENCE</div>
     <div class="progress"><div id="progress-fill" style="width:16.6%"></div></div>
     <div id="question"></div>
-    <div class="actions"><button class="btn secondary" id="back" type="button" data-t="back">Back</button><button class="btn" id="next" type="button" data-t="continue">Continue</button></div>
+    <div class="actions"><button class="btn secondary" id="back" type="button">Back</button><button class="btn" id="next" type="button">Continue</button></div>
+    <button class="link" id="skip-profile" type="button">Skip setup</button>
   </div>
 </section>
 
 <section id="dashboard" class="hidden">
   <div class="dashboard-head">
-    <div><p class="label-top" data-t="space">YOUR MINDFUL SPACE</p><h2><span data-t="hello">Hello</span>, <span id="username">there</span> 🌱</h2><p class="muted" data-t="dashboardDesc">Start with what you eat today.</p></div>
-    <button class="btn secondary" id="edit-profile" data-t="profileSetup" type="button">Profile setup</button>
+    <div>
+      <p class="label-top">YOUR MINDFUL SPACE</p>
+      <h2>Hello, <span id="username">there</span> 🌱</h2>
+      <p class="muted" style="margin-bottom:0">Small, steady choices can make a difference.</p>
+    </div>
+    <button class="btn secondary" id="edit-profile" type="button">Profile setup</button>
   </div>
+
+  <section class="panel">
+    <div class="panel-head">
+      <div><h3 id="selected-date-label">Today</h3><p class="panel-desc" style="margin:0">Choose a date to view its entries.</p></div>
+      <button class="text-button" id="open-calendar" type="button">Full calendar ↗</button>
+    </div>
+    <div id="date-strip" class="date-strip"></div>
+  </section>
+
   <div class="dashboard-grid">
     <div>
       <section class="panel">
-        
-<h3>Meal Calorie Calculator</h3>
-<p class="panel-desc">Enter each food and its weight to estimate calories.</p>
+        <div class="panel-head"><div><h3>Check Calories</h3><p class="panel-desc" style="margin:0">Choose how you want to log your meal.</p></div><span>🥗</span></div>
+        <div class="cal-choice">
+          <button class="choice" id="choose-manual" type="button"><span class="choice-icon">⚖️</span><strong>Manual calculator</strong><small>Enter food names and weight in grams.</small></button>
+          <button class="choice" id="choose-photo" type="button"><span class="choice-icon">📷</span><strong>Camera & gallery</strong><small>Take a photo or select a meal image.</small></button>
+        </div>
 
-<div id="meal-items">
-  <div class="meal-item">
-    <input class="search-input meal-name" placeholder="Food name (e.g. rice)">
-    <input class="search-input meal-weight" type="number" min="1" placeholder="Weight (grams)">
-  </div>
-</div>
+        <div id="manual-view" class="subview hidden">
+          <h3>Meal Calorie Calculator</h3>
+          <p class="panel-desc">Enter each food and its weight. Values are estimates per 100 g.</p>
+          <div id="meal-items">
+            <div class="food-row">
+              <input class="meal-name" placeholder="Food name, e.g. rice">
+              <input class="meal-weight" type="number" min="1" placeholder="Weight (g)">
+            </div>
+          </div>
+          <button class="btn secondary" id="add-meal-item" type="button">+ Add another food</button>
+          <div class="total-box">
+            <div class="small-note">Estimated meal calories</div>
+            <div class="total-number" id="meal-total">0 kcal</div>
+            <div class="small-note" id="meal-macros">Protein 0 g · Carbs 0 g · Fat 0 g</div>
+          </div>
+          <p id="meal-message" class="small-note" aria-live="polite">Start by entering a supported food name.</p>
+          <button class="btn full" id="log-meal" type="button">Add meal to today's log</button>
+        </div>
 
-<button class="btn" id="add-meal-item" type="button">+ Add another food</button>
-
-<div class="calorie-card" style="margin-top:16px">
-  <p>Total estimated calories</p>
-  <h2 id="meal-total">0 kcal</h2>
-</div>
-        
-<div class="scanner-box">
-  <div class="scanner-icon">📷</div>
-  <h3>Scan your meal</h3>
-  <p>Take a photo or choose one from your gallery.</p>
-
-  <label class="scanner-button">
-    📷 Open camera
-    <input
-      id="camera-input"
-      type="file"
-      accept="image/*"
-      capture="environment"
-      hidden
-    >
-  </label>
-
-  <label class="gallery-button">
-    Choose from gallery
-    <input
-      id="gallery-input"
-      type="file"
-      accept="image/*"
-      hidden
-    >
-  </label>
-
-  <div id="photo-preview" class="photo-preview"></div>
-  <p class="scanner-note">
-    Photo calorie analysis will be added in a future update.
-  </p>
-</div>
-
-        <div class="results" id="results"></div>
+        <div id="photo-view" class="subview hidden">
+          <div class="scanner-box">
+            <div style="font-size:30px">📷</div>
+            <h3>Scan your meal</h3>
+            <p>Take a photo or choose one from your gallery. Calorie analysis is not available yet.</p>
+            <label class="scanner-button">📷 Open camera
+              <input id="camera-input" type="file" accept="image/*" capture="environment" hidden>
+            </label>
+            <label class="gallery-button">Choose from gallery
+              <input id="gallery-input" type="file" accept="image/*" hidden>
+            </label>
+            <div id="photo-preview" class="photo-preview"></div>
+            <p class="small-note">Your photo is only previewed in this demo; calories are not detected automatically.</p>
+          </div>
+        </div>
       </section>
+
       <section class="panel">
-        <h3 data-t="foodLog">Today's food log</h3><p class="panel-desc" data-t="foodLogDesc">Entries stay in this demo session only.</p>
-        <div class="logs" id="food-logs"></div>
-        <form class="mini-form" id="custom-food"><input class="mini-input" id="custom-name" data-ph="foodName" placeholder="Food name" required><input class="mini-input" id="custom-cal" type="number" min="0" placeholder="kcal" required><button class="btn" type="submit" data-t="addFood">Add food</button></form>
+        <div class="panel-head"><div><h3>Daily Calories History</h3><p class="panel-desc" style="margin:0">Open your chart and past entries.</p></div><button class="text-button" id="open-history" type="button">View history ↗</button></div>
+        <div class="stats">
+          <div class="stat"><strong id="history-today">0</strong><span>Today · kcal</span></div>
+          <div class="stat"><strong id="history-yesterday">—</strong><span>Yesterday · kcal</span></div>
+          <div class="stat"><strong id="history-days">0</strong><span>Days logged</span></div>
+        </div>
       </section>
+
       <section class="panel">
-        <h3 data-t="movement">Movement log</h3><p class="panel-desc" data-t="movementDesc">Record activity and estimated calories burned.</p>
-        <form class="mini-form" id="exercise-form"><input class="mini-input" id="activity-name" data-ph="activityPlaceholder" placeholder="e.g. Walking 30 min" required><input class="mini-input" id="activity-cal" type="number" min="0" placeholder="kcal" required><button class="btn" type="submit" data-t="addActivity">Add activity</button></form>
-        <div class="logs" id="exercise-logs"></div>
+        <h3>Today's Food Log</h3>
+        <p class="panel-desc">Entries are grouped by the selected date.</p>
+        <div id="food-logs" class="logs"></div>
+        <form id="custom-food" class="form-row">
+          <input id="custom-name" placeholder="Food name" required>
+          <input id="custom-cal" type="number" min="0" placeholder="kcal" required>
+          <button class="btn" type="submit">Add estimated calories</button>
+        </form>
+        <p class="small-note">Custom entries record calories only; macro values are not estimated for these entries.</p>
+      </section>
+
+      <section class="panel">
+        <h3>Activity Log</h3>
+        <p class="panel-desc">Record movement and estimated calories burned.</p>
+        <form id="exercise-form" class="form-row">
+          <input id="activity-name" placeholder="e.g. Walking 30 min" required>
+          <input id="activity-cal" type="number" min="0" placeholder="kcal" required>
+          <button class="btn" type="submit">+ Add activity</button>
+        </form>
+        <div id="exercise-logs" class="logs" style="margin-top:12px"></div>
       </section>
     </div>
+
     <aside>
       <section class="calorie-card">
-        <p class="panel-desc" data-t="intake">TODAY'S CALORIE INTAKE</p>
-        <p class="calorie-big"><span id="eaten">0</span> <span data-t="kcalEaten">kcal eaten</span></p>
+        <p class="panel-desc">DAILY CALORIE INTAKE</p>
+        <p class="calorie-big"><span id="eaten">0</span> <small>kcal eaten</small></p>
         <div class="track"><div id="calorie-progress"></div></div>
-        <p class="panel-desc" id="target-status" data-t="targetHint">Set a target or complete your profile.</p>
-        <button class="btn secondary" id="set-target" data-t="setTarget" type="button">Set calorie target</button>
+        <p class="panel-desc" id="target-status">Set a target to track your progress.</p>
+        <button class="btn secondary" id="set-target" type="button">Set calorie target</button>
       </section>
+
       <section class="panel">
-        <h3 data-t="summary">Daily summary</h3><p class="panel-desc" data-t="summaryDesc">A simple overview of your entries.</p>
-        <div class="stats"><div class="stat"><strong id="food-count">0</strong><span data-t="foodEntries">Food entries</span></div><div class="stat"><strong id="activity-count">0</strong><span data-t="activities">Activities</span></div><div class="stat"><strong id="burned">0</strong><span data-t="burnedLabel">kcal burned</span></div></div>
-        <div class="note" id="profile-summary" data-t="profileNote">Your profile is optional. Food search works without it.</div>
+        <h3>Daily Nutrition</h3>
+        <p class="panel-desc">Your intake compared with today's targets.</p>
+        <div class="macro-list">
+          <div>
+            <div class="macro-top"><span>Protein</span><strong id="protein-label">0 / 120 g</strong></div>
+            <div class="macro-bar"><div id="protein-bar" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="macro-top"><span>Carbs</span><strong id="carbs-label">0 / 250 g</strong></div>
+            <div class="macro-bar"><div id="carbs-bar" style="width:0%"></div></div>
+          </div>
+          <div>
+            <div class="macro-top"><span>Fat</span><strong id="fat-label">0 / 65 g</strong></div>
+            <div class="macro-bar"><div id="fat-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="macro-edit">
+          <label>Protein target (g)<input id="protein-target" type="number" min="1" value="120"></label>
+          <label>Carbs target (g)<input id="carbs-target" type="number" min="1" value="250"></label>
+          <label>Fat target (g)<input id="fat-target" type="number" min="1" value="65"></label>
+        </div>
+        <button class="btn secondary full" id="save-macro-targets" type="button">Save nutrition targets</button>
+        <p class="small-note">Targets are adjustable estimates, not medical advice.</p>
       </section>
+
       <section class="panel">
-        <h3 data-t="weightProgress">Weight progress</h3><p class="panel-desc" data-t="weightDesc">Track your weight whenever you feel ready.</p>
-        <form class="mini-form" id="weight-form"><input class="mini-input" id="weight" type="number" min="20" max="400" step=".1" data-ph="weightPlaceholder" placeholder="Weight (kg)" required><button class="btn" type="submit" data-t="saveWeight">Save weight</button></form>
-        <div class="logs" id="weight-logs"></div>
+        <h3>Daily Summary</h3>
+        <div class="stats">
+          <div class="stat"><strong id="food-count">0</strong><span>Food entries</span></div>
+          <div class="stat"><strong id="activity-count">0</strong><span>Activities</span></div>
+          <div class="stat"><strong id="burned">0</strong><span>kcal burned</span></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h3>Weight Progress</h3>
+        <p class="panel-desc">Record your weight whenever you're ready.</p>
+        <form id="weight-form" class="form-row">
+          <input id="weight" type="number" min="20" max="400" step=".1" placeholder="Weight (kg)" required>
+          <span></span>
+          <button class="btn" type="submit">Save weight</button>
+        </form>
+        <div id="weight-logs" class="logs" style="margin-top:12px"></div>
       </section>
     </aside>
   </div>
-  <footer data-t="footer">Dietora is a supportive tool, not medical advice. Food calories are estimates.</footer>
+  <footer>Dietora is a supportive tool, not medical advice. Food calories are estimates.</footer>
 </section>
 </main>
 
+<div id="calendar-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-head"><h3 style="margin:0">Choose a date</h3><button class="close-button" data-close="calendar-modal" type="button">Close ✕</button></div>
+    <div class="month-head"><button class="btn secondary" id="prev-month" type="button">←</button><strong id="month-title"></strong><button class="btn secondary" id="next-month" type="button">→</button></div>
+    <div class="month-grid" id="month-grid"></div>
+  </div>
+</div>
+
+<div id="history-modal" class="modal-backdrop hidden">
+  <div class="modal">
+    <div class="modal-head"><div><h3 style="margin:0">Daily Calories History</h3><p class="small-note" style="margin:5px 0 0">Only days with saved entries are recorded.</p></div><button class="close-button" data-close="history-modal" type="button">Close ✕</button></div>
+    <div class="history-range">
+      <button data-range="7" class="active" type="button">7 days</button>
+      <button data-range="30" type="button">30 days</button>
+      <button data-range="90" type="button">90 days</button>
+    </div>
+    <div id="history-chart" class="history-chart"></div>
+    <p id="history-chart-note" class="small-note">Calories logged per day. Missing entries are not assumed to mean zero intake.</p>
+    <h3 style="margin-top:20px">Entries by date</h3>
+    <div id="history-list" class="logs"></div>
+  </div>
+</div>
+
 <script>
-const translations = {
-en: {
-eyebrow:"SMALL STEPS. LASTING CHANGE.",heroTitle:"Your journey,<br>made mindful.",heroDesc:"A calmer, clearer way to understand your food, build healthy habits, and move toward your goals.",heroFoot:"A little more mindful, one day at a time.",welcome:"WELCOME TO DIETORA",signIn:"Sign in to your space",signUp:"Create your Dietora account",authDesc:"Your personal space for mindful nutrition starts here.",authDescUp:"Create a demo profile to explore Dietora.",email:"Email address",password:"Password",signInBtn:"Sign in",signUpBtn:"Create account",noAccount:"New to Dietora?",hasAccount:"Already have an account?",createAccount:"Create an account",goSignIn:"Sign in instead",demoNotice:"Prototype only: login is not secure and data is not saved online.",journey:"YOUR JOURNEY STARTS HERE",introTitle:"A healthier routine, your way.",introDesc:"Explore food calories, build mindful habits, and understand your progress — without pressure to be perfect.",getStarted:"Let's get started",skipExplore:"Skip setup and explore Dietora",skip:"Skip",personalize:"PERSONALIZE YOUR EXPERIENCE",back:"Back",continue:"Continue",finish:"Finish setup",space:"YOUR MINDFUL SPACE",hello:"Hello",dashboardDesc:"Start with what you eat today. Small, steady choices can make a difference.",profileSetup:"Profile setup",foodSearch:"Find food calories",foodSearchDesc:"Search the sample list or add your own estimate.",searchPlaceholder:"Try rice, banana, egg...",searchBtn:"Search",foodLog:"Today's food log",foodLogDesc:"Your entries stay in this demo session only.",foodName:"Food name",addFood:"Add food",movement:"Movement log",movementDesc:"Record activity and estimated calories burned.",activityPlaceholder:"e.g. Walking 30 min",addActivity:"Add activity",intake:"TODAY'S CALORIE INTAKE",kcalEaten:"kcal eaten",targetHint:"Set a target or complete your profile.",setTarget:"Set calorie target",summary:"Daily summary",summaryDesc:"A simple overview of your entries.",foodEntries:"Food entries",activities:"Activities",burnedLabel:"kcal burned",profileNote:"Your profile is optional. Food search works without it.",weightProgress:"Weight progress",weightDesc:"Track your weight whenever you feel ready.",weightPlaceholder:"Weight (kg)",saveWeight:"Save weight",footer:"Dietora is a supportive tool, not medical advice. Food calories are estimates.",goalQ:"What is your main goal?",goalSub:"Choose the goal that fits you best.",lose:"Lose weight",loseSub:"Build sustainable habits",maintain:"Maintain weight",maintainSub:"Keep your current routine",gain:"Gain weight",gainSub:"Gradual, intentional gain",sexQ:"What is your sex?",sexSub:"Used for an estimated energy calculation.",male:"Male",female:"Female",ageQ:"How old are you?",ageSub:"This prototype is designed for adults.",ageLabel:"Age (years)",heightQ:"How tall are you?",heightSub:"This helps estimate your BMI.",heightLabel:"Height (cm)",weightQ:"What is your current weight?",weightSub:"You can update it later.",weightLabel:"Current weight (kg)",activityQ:"How active are you on a typical day?",activitySub:"Choose what best matches most days.",sedentary:"Mostly sitting",sedentarySub:"Little planned exercise",light:"Lightly active",lightSub:"Light exercise 1–3 days/week",moderate:"Moderately active",moderateSub:"Exercise 3–5 days/week",very:"Very active",verySub:"Hard exercise or physical work",bmi:"Estimated BMI",goal:"Goal",age:"Age",height:"Height",weight:"Weight",perServing:"estimated per serving",noResults:"No sample matches. Add your own estimate below.",add:"Add",emptyFood:"No food logged yet.",emptyExercise:"No activities logged yet.",emptyWeight:"No weight entries yet.",remove:"Remove",targetLabel:"Daily calorie target (kcal)",savedTarget:"Target saved for this demo session.",invalid:"Enter a valid number.",profileIncomplete:"Complete more profile details to estimate BMI.",there:"there"
-},
-id: {
-eyebrow:"LANGKAH KECIL. PERUBAHAN BERARTI.",heroTitle:"Perjalananmu,<br>lebih bermakna.",heroDesc:"Cara yang lebih tenang untuk memahami makanan, membangun kebiasaan sehat, dan melangkah menuju tujuanmu.",heroFoot:"Lebih sadar, sedikit demi sedikit setiap hari.",welcome:"SELAMAT DATANG DI DIETORA",signIn:"Masuk ke ruang pribadimu",signUp:"Buat akun Dietora",authDesc:"Perjalanan nutrisi yang lebih sadar dimulai di sini.",authDescUp:"Buat profil demo untuk menjelajahi Dietora.",email:"Alamat email",password:"Kata sandi",signInBtn:"Masuk",signUpBtn:"Buat akun",noAccount:"Baru di Dietora?",hasAccount:"Sudah punya akun?",createAccount:"Buat akun",goSignIn:"Masuk saja",demoNotice:"Hanya prototipe: login belum aman dan data tidak tersimpan online.",journey:"PERJALANANMU DIMULAI DI SINI",introTitle:"Rutinitas sehat, dengan caramu.",introDesc:"Cari kalori makanan, bangun kebiasaan sadar, dan pahami progres tanpa tuntutan untuk selalu sempurna.",getStarted:"Mulai sekarang",skipExplore:"Lewati pengaturan dan jelajahi Dietora",skip:"Lewati",personalize:"SESUAIKAN PENGALAMANMU",back:"Kembali",continue:"Lanjut",finish:"Selesai",space:"RUANG SADAR MILIKMU",hello:"Halo",dashboardDesc:"Mulai dari makananmu hari ini. Pilihan kecil yang konsisten bisa berarti.",profileSetup:"Atur profil",foodSearch:"Cari kalori makanan",foodSearchDesc:"Cari dari daftar contoh atau masukkan perkiraan sendiri.",searchPlaceholder:"Coba nasi, pisang, telur...",searchBtn:"Cari",foodLog:"Catatan makanan hari ini",foodLogDesc:"Catatan hanya bertahan selama sesi demo ini.",foodName:"Nama makanan",addFood:"Tambah makanan",movement:"Catatan aktivitas",movementDesc:"Catat aktivitas dan perkiraan kalori terbakar.",activityPlaceholder:"Contoh: Jalan kaki 30 menit",addActivity:"Tambah aktivitas",intake:"ASUPAN KALORI HARI INI",kcalEaten:"kkal dikonsumsi",targetHint:"Atur target atau lengkapi profilmu.",setTarget:"Atur target kalori",summary:"Ringkasan harian",summaryDesc:"Ringkasan sederhana catatanmu.",foodEntries:"Catatan makanan",activities:"Aktivitas",burnedLabel:"kkal terbakar",profileNote:"Profil bersifat opsional. Pencarian makanan tetap bisa digunakan.",weightProgress:"Progres berat badan",weightDesc:"Catat berat badan kapan pun kamu siap.",weightPlaceholder:"Berat (kg)",saveWeight:"Simpan berat",footer:"Dietora adalah alat pendukung, bukan saran medis. Kalori makanan merupakan perkiraan.",goalQ:"Apa tujuan utamamu?",goalSub:"Pilih tujuan yang paling sesuai.",lose:"Menurunkan berat",loseSub:"Membangun kebiasaan berkelanjutan",maintain:"Menjaga berat",maintainSub:"Mempertahankan rutinitas saat ini",gain:"Menaikkan berat",gainSub:"Kenaikan bertahap dan terencana",sexQ:"Apa jenis kelaminmu?",sexSub:"Digunakan untuk perkiraan kebutuhan energi.",male:"Laki-laki",female:"Perempuan",ageQ:"Berapa usiamu?",ageSub:"Prototipe ini dirancang untuk orang dewasa.",ageLabel:"Usia (tahun)",heightQ:"Berapa tinggi badanmu?",heightSub:"Membantu memperkirakan BMI.",heightLabel:"Tinggi badan (cm)",weightQ:"Berapa berat badanmu saat ini?",weightSub:"Kamu bisa memperbaruinya nanti.",weightLabel:"Berat saat ini (kg)",activityQ:"Seberapa aktif kamu sehari-hari?",activitySub:"Pilih yang paling sesuai dengan sebagian besar harimu.",sedentary:"Lebih banyak duduk",sedentarySub:"Jarang olahraga terencana",light:"Aktivitas ringan",lightSub:"Olahraga ringan 1–3 hari/minggu",moderate:"Cukup aktif",moderateSub:"Olahraga 3–5 hari/minggu",very:"Sangat aktif",verySub:"Olahraga berat atau kerja fisik",bmi:"Perkiraan BMI",goal:"Tujuan",age:"Usia",height:"Tinggi",weight:"Berat",perServing:"perkiraan per porsi",noResults:"Tidak ada yang cocok. Tambahkan perkiraan sendiri di bawah.",add:"Tambah",emptyFood:"Belum ada makanan dicatat.",emptyExercise:"Belum ada aktivitas dicatat.",emptyWeight:"Belum ada catatan berat.",remove:"Hapus",targetLabel:"Target kalori harian (kkal)",savedTarget:"Target tersimpan untuk sesi demo ini.",invalid:"Masukkan angka yang valid.",profileIncomplete:"Lengkapi profil untuk memperkirakan BMI.",there:"di sini"
-}};
-let lang="en", signup=false, step=0, target=0;
+const $ = id => document.getElementById(id);
+const todayISO = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+const shiftDate = (iso, amount) => {
+  const d = new Date(iso+"T12:00:00");
+  d.setDate(d.getDate()+amount);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+};
+const prettyDate = iso => new Date(iso+"T12:00:00").toLocaleDateString(lang==="id"?"id-ID":"en-US",{day:"numeric",month:"short",year:"numeric"});
+const weekday = iso => new Date(iso+"T12:00:00").toLocaleDateString(lang==="id"?"id-ID":"en-US",{weekday:"short"});
+let lang="en", signup=false, step=0, target=2000, selectedDate=todayISO();
 let profile={goal:"",sex:"",age:"",height:"",weight:"",activity:""};
-let foods=[
-["White rice, 150 g","Nasi putih, 150 g",195,"rice nasi"],
-["Banana, 1 medium","Pisang, 1 buah sedang",105,"banana pisang"],
-["Boiled egg, 1 large","Telur rebus, 1 butir",78,"egg telur"],
-["Cooked chicken breast, 100 g","Dada ayam matang, 100 g",165,"chicken ayam"],
-["Fried tempeh, 1 slice","Tempe goreng, 1 potong",90,"tempe"],
-["Tofu, 100 g","Tahu, 100 g",80,"tofu tahu"],
-["Papaya, 100 g","Pepaya, 100 g",43,"papaya pepaya"],
-["Instant noodles, 1 pack","Mi instan, 1 bungkus",380,"noodle mie mi"],
-["Grilled fish, 100 g","Ikan bakar, 100 g",140,"fish ikan"],
-["Cooked oatmeal, 1 cup","Oatmeal matang, 1 cangkir",154,"oat oatmeal"]
-];
-let foodLog=[], activityLog=[], weightLog=[];
-const $=id=>document.getElementById(id);
-const tr=key=>translations[lang][key]||translations.en[key]||key;
-function show(id){
-["auth","intro","onboarding","dashboard"].forEach(x=>$(x).classList.toggle("hidden",x!==id));
-window.scrollTo(0,0);
-}
-function setLang(next){
-lang=next;
-document.documentElement.lang=lang;
-$("lang-en").classList.toggle("active",lang==="en");
-$("lang-id").classList.toggle("active",lang==="id");
-document.querySelectorAll("[data-t]").forEach(el=>el.textContent=tr(el.dataset.t));
-document.querySelectorAll("[data-html]").forEach(el=>el.innerHTML=tr(el.dataset.html));
-document.querySelectorAll("[data-ph]").forEach(el=>el.placeholder=tr(el.dataset.ph));
-updateAuthText();
-renderQuestion();
-renderResults($("search").value);
-renderLogs();
-updateCalorie();
-}
+let macroTargets={protein:120,carbs:250,fat:65};
+let foodLogs={},activityLogs={},weightLog=[];
+let monthCursor=new Date();
+let historyRange=7;
+const dayFoods = date => foodLogs[date]||(foodLogs[date]=[]);
+const dayActivities = date => activityLogs[date]||(activityLogs[date]=[]);
+const foodDB={
+ "rice":{cal:130,p:2.7,c:28.2,f:.3},
+ "white rice":{cal:130,p:2.7,c:28.2,f:.3},
+ "nasi":{cal:130,p:2.7,c:28.2,f:.3},
+ "nasi putih":{cal:130,p:2.7,c:28.2,f:.3},
+ "fried rice":{cal:180,p:4,c:25,f:7},
+ "nasi goreng":{cal:180,p:4,c:25,f:7},
+ "chicken":{cal:165,p:31,c:0,f:3.6},
+ "ayam":{cal:165,p:31,c:0,f:3.6},
+ "ayam rebus":{cal:165,p:31,c:0,f:3.6},
+ "fried chicken":{cal:260,p:20,c:12,f:15},
+ "ayam goreng":{cal:260,p:20,c:12,f:15},
+ "fish":{cal:130,p:22,c:0,f:4},
+ "ikan":{cal:130,p:22,c:0,f:4},
+ "fried fish":{cal:200,p:20,c:8,f:10},
+ "ikan goreng":{cal:200,p:20,c:8,f:10},
+ "tempe":{cal:193,p:20,c:9,f:11},
+ "tempeh":{cal:193,p:20,c:9,f:11},
+ "tempe goreng":{cal:250,p:17,c:10,f:17},
+ "fried tempeh":{cal:250,p:17,c:10,f:17},
+ "tofu":{cal:80,p:8,c:2,f:5},
+ "tahu":{cal:80,p:8,c:2,f:5},
+ "tahu goreng":{cal:115,p:7,c:4,f:8},
+ "fried tofu":{cal:115,p:7,c:4,f:8},
+ "egg":{cal:155,p:13,c:1.1,f:11},
+ "telur":{cal:155,p:13,c:1.1,f:11},
+ "boiled egg":{cal:155,p:13,c:1.1,f:11},
+ "telur rebus":{cal:155,p:13,c:1.1,f:11},
+ "banana":{cal:89,p:1.1,c:22.8,f:.3},
+ "pisang":{cal:89,p:1.1,c:22.8,f:.3},
+ "papaya":{cal:43,p:.5,c:11,f:.3},
+ "pepaya":{cal:43,p:.5,c:11,f:.3},
+ "noodles":{cal:140,p:5,c:25,f:3},
+ "mie":{cal:140,p:5,c:25,f:3},
+ "mi":{cal:140,p:5,c:25,f:3},
+ "vegetables":{cal:35,p:2,c:7,f:.3},
+ "sayur":{cal:35,p:2,c:7,f:.3},
+ "oatmeal":{cal:68,p:2.4,c:12,f:1.4},
+ "milk":{cal:60,p:3.2,c:5,f:3.3},
+ "susu":{cal:60,p:3.2,c:5,f:3.3}
+};
+const show = id => {
+  ["auth","intro","onboarding","dashboard"].forEach(s=>$(s).classList.toggle("hidden",s!==id));
+  window.scrollTo(0,0);
+};
+const safe = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const totalFor = date => dayFoods(date).reduce((s,x)=>s+x.cal,0);
+const macrosFor = date => dayFoods(date).reduce((s,x)=>({p:s.p+(x.p||0),c:s.c+(x.c||0),f:s.f+(x.f||0)}),{p:0,c:0,f:0});
+const dateHasEntries = date => (foodLogs[date]||[]).length>0;
 function updateAuthText(){
-$("auth-title").textContent=tr(signup?"signUp":"signIn");
-$("auth-desc").textContent=tr(signup?"authDescUp":"authDesc");
-$("auth-submit").textContent=tr(signup?"signUpBtn":"signInBtn");
-$("auth-toggle-text").textContent=tr(signup?"hasAccount":"noAccount");
-$("auth-toggle").textContent=tr(signup?"goSignIn":"createAccount");
+  $("auth-title").textContent=signup?"Create your Dietora account":"Sign in to your space";
+  $("auth-desc").textContent=signup?"Create a demo profile to explore Dietora.":"Your personal space for mindful nutrition starts here.";
+  $("auth-submit").textContent=signup?"Create account":"Sign in";
+  $("auth-toggle-text").textContent=signup?"Already have an account?":"New to Dietora?";
+  $("auth-toggle").textContent=signup?"Sign in instead":"Create an account";
 }
 $("lang-en").onclick=()=>setLang("en");
 $("lang-id").onclick=()=>setLang("id");
+function setLang(next){
+  lang=next;
+  document.documentElement.lang=lang;
+  $("lang-en").classList.toggle("active",lang==="en");
+  $("lang-id").classList.toggle("active",lang==="id");
+  renderDateStrip();renderCalendar();renderHistory();renderLogs();updateCalorie();updateMacros();updateHistorySummary();
+  if($("question").innerHTML)renderQuestion();
+}
 $("auth-toggle").onclick=()=>{signup=!signup;updateAuthText()};
 $("auth-form").onsubmit=e=>{
-e.preventDefault();
-const email=$("email").value.trim();
-$("username").textContent=email.split("@")[0].replace(/[._-]/g," ")||tr("there");
-show("intro");
+  e.preventDefault();
+  $("username").textContent=$("email").value.split("@")[0].replace(/[._-]/g," ")||"there";
+  show("intro");
 };
 $("start-profile").onclick=()=>{step=0;renderQuestion();show("onboarding")};
-$("skip-intro").onclick=()=>{renderProfileSummary();show("dashboard")};
-$("skip-profile").onclick=()=>{renderProfileSummary();show("dashboard")};
+$("skip-intro").onclick=()=>show("dashboard");
+$("skip-profile").onclick=()=>show("dashboard");
 $("edit-profile").onclick=()=>{step=0;renderQuestion();show("onboarding")};
+
 const steps=["goal","sex","age","height","weight","activity"];
-function makeOption(key,val,icon,sub=""){
-return `<button class="option ${profile[key]===val?"selected":""}" type="button" data-key="${key}" data-value="${val}"><strong>${icon} ${tr(val)}</strong>${sub?`<small>${tr(sub)}</small>`:""}</button>`;
-}
+const stepInfo={
+ goal:{title:"What is your main goal?",options:[["lose","Lose weight","Sustainable habits"],["maintain","Maintain weight","Keep your routine"],["gain","Gain weight","Gradual, intentional gain"]]},
+ sex:{title:"What is your sex?",options:[["male","Male",""],["female","Female",""]]},
+ activity:{title:"How active are you?",options:[["sedentary","Mostly sitting","Little planned exercise"],["light","Lightly active","Exercise 1–3 days/week"],["moderate","Moderately active","Exercise 3–5 days/week"],["very","Very active","Hard exercise or physical work"]]}
+};
 function renderQuestion(){
-if(!$("question"))return;
-const key=steps[step];
-$("step-count").textContent=`${step+1} / ${steps.length}`;
-$("progress-fill").style.width=`${(step+1)/steps.length*100}%`;
-$("back").style.visibility=step===0?"hidden":"visible";
-$("next").textContent=tr(step===steps.length-1?"finish":"continue");
-let html="";
-if(key==="goal")html=`<div class="icon">🎯</div><p class="label-top">${tr("personalize")}</p><h2>${tr("goalQ")}</h2><p class="muted">${tr("goalSub")}</p><div class="options">${makeOption("goal","lose","↘","loseSub")}${makeOption("goal","maintain","◉","maintainSub")}${makeOption("goal","gain","↗","gainSub")}</div>`;
-if(key==="sex")html=`<div class="icon">✳️</div><p class="label-top">${tr("personalize")}</p><h2>${tr("sexQ")}</h2><p class="muted">${tr("sexSub")}</p><div class="options">${makeOption("sex","male","♂")}${makeOption("sex","female","♀")}</div>`;
-if(key==="age")html=`<div class="icon">🎂</div><p class="label-top">${tr("personalize")}</p><h2>${tr("ageQ")}</h2><p class="muted">${tr("ageSub")}</p><label class="field">${tr("ageLabel")}<input id="answer" type="number" min="18" max="100" value="${profile.age}" placeholder="23"></label>`;
-if(key==="height")html=`<div class="icon">📏</div><p class="label-top">${tr("personalize")}</p><h2>${tr("heightQ")}</h2><p class="muted">${tr("heightSub")}</p><label class="field">${tr("heightLabel")}<input id="answer" type="number" min="100" max="250" value="${profile.height}" placeholder="170"></label>`;
-if(key==="weight")html=`<div class="icon">⚖️</div><p class="label-top">${tr("personalize")}</p><h2>${tr("weightQ")}</h2><p class="muted">${tr("weightSub")}</p><label class="field">${tr("weightLabel")}<input id="answer" type="number" min="25" max="350" step=".1" value="${profile.weight}" placeholder="70"></label>`;
-if(key==="activity")html=`<div class="icon">🚶</div><p class="label-top">${tr("personalize")}</p><h2>${tr("activityQ")}</h2><p class="muted">${tr("activitySub")}</p><div class="options">${makeOption("activity","sedentary","🪑","sedentarySub")}${makeOption("activity","light","🚶","lightSub")}${makeOption("activity","moderate","🏃","moderateSub")}${makeOption("activity","very","🏋️","verySub")}</div>`;
-$("question").innerHTML=html;
-$("question").querySelectorAll("[data-key]").forEach(b=>b.onclick=()=>{profile[b.dataset.key]=b.dataset.value;renderQuestion()});
+ const key=steps[step];
+ $("progress-fill").style.width=((step+1)/steps.length*100)+"%";
+ let html=`<p class="label-top">STEP ${step+1} OF ${steps.length}</p>`;
+ if(stepInfo[key]){
+  html+=`<h2>${stepInfo[key].title}</h2><div class="options">`;
+  stepInfo[key].options.forEach(o=>html+=`<button type="button" class="option ${profile[key]===o[0]?"selected":""}" data-key="${key}" data-value="${o[0]}"><strong>${o[1]}</strong><small>${o[2]}</small></button>`);
+  html+="</div>";
+ }else{
+  const data={
+   age:["How old are you?","Age (years)","23",18,100,1],
+   height:["How tall are you?","Height (cm)","170",100,250,1],
+   weight:["What is your current weight?","Weight (kg)","70",25,350,.1]
+  }[key];
+  html+=`<h2>${data[0]}</h2><label class="field">${data[1]}<input id="answer" type="number" min="${data[3]}" max="${data[4]}" step="${data[5]}" value="${profile[key]}" placeholder="${data[2]}"></label>`;
+ }
+ $("question").innerHTML=html;
+ $("question").querySelectorAll("[data-key]").forEach(b=>b.onclick=()=>{profile[b.dataset.key]=b.dataset.value;renderQuestion()});
+ $("back").style.visibility=step===0?"hidden":"visible";
+ $("next").textContent=step===steps.length-1?"Finish setup":"Continue";
 }
-function saveAnswer(){
-const key=steps[step];
-if(["age","height","weight"].includes(key)&&$("answer"))profile[key]=$("answer").value;
-}
-$("back").onclick=()=>{saveAnswer();if(step>0)step--;renderQuestion()};
+function saveAnswer(){const key=steps[step];if($("answer"))profile[key]=$("answer").value}
+$("back").onclick=()=>{saveAnswer();step=Math.max(0,step-1);renderQuestion()};
 $("next").onclick=()=>{
-saveAnswer();
-if(step<steps.length-1){step++;renderQuestion();return}
-calculateTarget();
-renderProfileSummary();
-show("dashboard");
-updateCalorie();
+ saveAnswer();
+ if(step<steps.length-1){step++;renderQuestion();return}
+ const age=+profile.age,h=+profile.height,w=+profile.weight;
+ if(age>0&&h>0&&w>0&&profile.sex&&profile.activity){
+  const bmr=10*w+6.25*h-5*age+(profile.sex==="male"?5:-161);
+  const factor={sedentary:1.2,light:1.375,moderate:1.55,very:1.725}[profile.activity]||1.2;
+  target=Math.max(1200,Math.round((bmr*factor+(profile.goal==="lose"?-300:profile.goal==="gain"?200:0))/50)*50);
+ }
+ show("dashboard");updateCalorie();
 };
-function calculateTarget(){
-const age=+profile.age,h=+profile.height,w=+profile.weight;
-if(age>=18&&h>0&&w>0&&profile.sex&&profile.activity){
-const bmr=10*w+6.25*h-5*age+(profile.sex==="male"?5:-161);
-const factor={sedentary:1.2,light:1.375,moderate:1.55,very:1.725}[profile.activity]||1.2;
-target=Math.max(1200,Math.round((bmr*factor+(profile.goal==="lose"?-300:profile.goal==="gain"?200:0))/50)*50);
+
+function renderDateStrip(){
+ const base=new Date(selectedDate+"T12:00:00");
+ const start=new Date(base);start.setDate(base.getDate()-3);
+ $("selected-date-label").textContent=selectedDate===todayISO()?(lang==="id"?"Hari ini":"Today"):prettyDate(selectedDate);
+ $("date-strip").innerHTML="";
+ for(let i=0;i<7;i++){
+  const d=new Date(start);d.setDate(start.getDate()+i);
+  const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+  const b=document.createElement("button");
+  b.type="button";b.className="date-day"+(iso===selectedDate?" selected":"")+(iso===todayISO()?" today":"");
+  b.innerHTML=`<span class="day-name">${d.toLocaleDateString(lang==="id"?"id-ID":"en-US",{weekday:"short"})}</span><span class="day-number">${d.getDate()}</span>`;
+  b.onclick=()=>selectDate(iso);
+  $("date-strip").appendChild(b);
+ }
 }
+function selectDate(iso){
+ selectedDate=iso;renderDateStrip();renderLogs();updateCalorie();updateMacros();
 }
-function renderProfileSummary(){
-const parts=[];
-if(profile.goal)parts.push(`${tr("goal")}: ${tr(profile.goal)}`);
-if(profile.age)parts.push(`${tr("age")}: ${profile.age}`);
-if(profile.height&&profile.weight)parts.push(`${tr("bmi")}: ${(Number(profile.weight)/(Number(profile.height)/100)**2).toFixed(1)}`);
-if(profile.weight)parts.push(`${tr("weight")}: ${profile.weight} kg`);
-$("profile-summary").textContent=parts.join(" · ")||tr("profileIncomplete");
+$("open-calendar").onclick=()=>{monthCursor=new Date(selectedDate+"T12:00:00");renderCalendar();$("calendar-modal").classList.remove("hidden")};
+$("prev-month").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()-1);renderCalendar()};
+$("next-month").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
+function renderCalendar(){
+ const y=monthCursor.getFullYear(),m=monthCursor.getMonth();
+ $("month-title").textContent=monthCursor.toLocaleDateString(lang==="id"?"id-ID":"en-US",{month:"long",year:"numeric"});
+ const grid=$("month-grid");grid.innerHTML="";
+ const dayNames=lang==="id"?["Min","Sen","Sel","Rab","Kam","Jum","Sab"]:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+ dayNames.forEach(n=>{const el=document.createElement("div");el.className="month-label";el.textContent=n;grid.appendChild(el)});
+ const offset=new Date(y,m,1).getDay(),count=new Date(y,m+1,0).getDate();
+ for(let i=0;i<offset;i++)grid.appendChild(document.createElement("div"));
+ for(let n=1;n<=count;n++){
+  const iso=`${y}-${String(m+1).padStart(2,"0")}-${String(n).padStart(2,"0")}`;
+  const b=document.createElement("button");b.type="button";b.className="month-date"+(iso===selectedDate?" selected":"")+(dateHasEntries(iso)?" has-data":"");b.textContent=n;
+  b.onclick=()=>{selectDate(iso);$("calendar-modal").classList.add("hidden")};grid.appendChild(b);
+ }
 }
-$("set-target").onclick=()=>{
-const value=prompt(tr("targetLabel"),String(target||2000));
-if(value===null)return;
-if(!Number.isFinite(+value)||+value<500||+value>10000){alert(tr("invalid"));return}
-target=Math.round(+value);
-updateCalorie();
-alert(tr("savedTarget"));
+document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).classList.add("hidden"));
+["calendar-modal","history-modal"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target===$(id))$(id).classList.add("hidden")}));
+
+$("choose-manual").onclick=()=>{$("manual-view").classList.toggle("hidden");$("photo-view").classList.add("hidden")};
+$("choose-photo").onclick=()=>{$("photo-view").classList.toggle("hidden");$("manual-view").classList.add("hidden")};
+function calculateMeal(){
+ let total={cal:0,p:0,c:0,f:0},unknown=[];
+ document.querySelectorAll(".food-row").forEach(row=>{
+  const name=row.querySelector(".meal-name").value.trim().toLowerCase();
+  const weight=Number(row.querySelector(".meal-weight").value);
+  if(!name||weight<=0)return;
+  const db=foodDB[name];
+  if(!db){unknown.push(name);return}
+  total.cal+=db.cal*weight/100;total.p+=db.p*weight/100;total.c+=db.c*weight/100;total.f+=db.f*weight/100;
+ });
+ $("meal-total").textContent=Math.round(total.cal).toLocaleString(lang==="id"?"id-ID":"en-US")+" kcal";
+ $("meal-macros").textContent=`Protein ${Math.round(total.p)} g · Carbs ${Math.round(total.c)} g · Fat ${Math.round(total.f)} g`;
+ $("meal-message").textContent=unknown.length?`No estimate for: ${[...new Set(unknown)].join(", ")}. Try a supported name such as rice, nasi, chicken, ayam, fish, ikan, tempe, tahu, egg, telur, banana, pisang, or papaya.`:"Estimates update automatically as you type.";
+ return {total,unknown};
+}
+$("add-meal-item").onclick=()=>{
+ const row=document.createElement("div");row.className="food-row";
+ row.innerHTML=`<input class="meal-name" placeholder="Food name, e.g. fish"><input class="meal-weight" type="number" min="1" placeholder="Weight (g)"><button class="text-button remove-row" type="button">Remove row ✕</button>`;
+ $("meal-items").appendChild(row);calculateMeal();
 };
-$("search-button").onclick=()=>renderResults($("search").value);
-$("search").oninput=()=>renderResults($("search").value);
-$("search").onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();renderResults($("search").value)}};
-function renderResults(query=""){
-const q=query.trim().toLowerCase();
-const matches=foods.filter(f=>!q||f.join(" ").toLowerCase().includes(q));
-$("results").innerHTML=matches.length?matches.map(f=>`<div class="result"><div><strong>${lang==="id"?f[1]:f[0]}</strong><small>${f[2]} kcal · ${tr("perServing")}</small></div><div><span class="cal">${f[2]}</span> <button type="button" data-food="${foods.indexOf(f)}">${tr("add")}</button></div></div>`).join(""):`<div class="empty">${tr("noResults")}</div>`;
-$("results").querySelectorAll("[data-food]").forEach(b=>b.onclick=()=>{
-const f=foods[+b.dataset.food];
-foodLog.push({name:lang==="id"?f[1]:f[0],cal:f[2]});
-renderLogs();updateCalorie();
+$("meal-items").addEventListener("input",calculateMeal);
+$("meal-items").addEventListener("click",e=>{
+ if(e.target.classList.contains("remove-row")){e.target.closest(".food-row").remove();calculateMeal()}
 });
+$("log-meal").onclick=()=>{
+ const {total,unknown}=calculateMeal();
+ if(total.cal<=0){alert("Enter a supported food name and its weight first.");return}
+ if(unknown.length){alert("Some foods are not in the sample database. Their calories have not been included.");}
+ dayFoods(selectedDate).push({name:"Meal calculator",cal:Math.round(total.cal),p:Math.round(total.p),c:Math.round(total.c),f:Math.round(total.f),details:[...document.querySelectorAll(".food-row")].map(r=>({name:r.querySelector(".meal-name").value.trim(),weight:r.querySelector(".meal-weight").value})).filter(x=>x.name&&x.weight>0).map(x=>`${x.name} ${x.weight}g`).join(", ")});
+ renderLogs();updateCalorie();updateMacros();updateHistorySummary();
+ alert("Meal added to the selected date.");
+};
+function showMealPhoto(input){
+ const file=input.files&&input.files[0];if(!file)return;
+ if(!file.type.startsWith("image/")){alert("Please select an image.");return}
+ const preview=$("photo-preview");preview.innerHTML="";
+ const img=document.createElement("img");img.src=URL.createObjectURL(file);img.alt="Meal photo preview";preview.appendChild(img);
 }
+$("camera-input").addEventListener("change",function(){showMealPhoto(this)});
+$("gallery-input").addEventListener("change",function(){showMealPhoto(this)});
+
 $("custom-food").onsubmit=e=>{
-e.preventDefault();
-const name=$("custom-name").value.trim(),cal=+$("custom-cal").value;
-if(!name||cal<0)return;
-foodLog.push({name,cal});
-$("custom-name").value="";$("custom-cal").value="";
-renderLogs();updateCalorie();
+ e.preventDefault();const name=$("custom-name").value.trim(),cal=+$("custom-cal").value;
+ if(!name||cal<0)return;
+ dayFoods(selectedDate).push({name,cal,p:0,c:0,f:0});
+ $("custom-name").value="";$("custom-cal").value="";
+ renderLogs();updateCalorie();updateMacros();updateHistorySummary();
 };
 $("exercise-form").onsubmit=e=>{
-e.preventDefault();
-const name=$("activity-name").value.trim(),cal=+$("activity-cal").value;
-if(!name||cal<0)return;
-activityLog.push({name,cal});
-$("activity-name").value="";$("activity-cal").value="";
-renderLogs();updateCalorie();
+ e.preventDefault();const name=$("activity-name").value.trim(),cal=+$("activity-cal").value;
+ if(!name||cal<0)return;
+ dayActivities(selectedDate).push({name,cal});
+ $("activity-name").value="";$("activity-cal").value="";
+ renderLogs();updateCalorie();
 };
 $("weight-form").onsubmit=e=>{
-e.preventDefault();
-const w=+$("weight").value;
-if(w<20||w>400)return;
-weightLog.push(w);
-$("weight").value="";
-renderLogs();
+ e.preventDefault();const w=+$("weight").value;if(w<20||w>400)return;
+ weightLog.push({date:selectedDate,weight:w});$("weight").value="";renderLogs();
 };
-function safe(text){
-return String(text).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+$("set-target").onclick=()=>{
+ const value=prompt("Daily calorie target (kcal)",String(target));
+ if(value===null)return;
+ if(!Number.isFinite(+value)||+value<500||+value>10000){alert("Enter a number between 500 and 10000.");return}
+ target=Math.round(+value);updateCalorie();
+};
+$("save-macro-targets").onclick=()=>{
+ const p=+$("protein-target").value,c=+$("carbs-target").value,f=+$("fat-target").value;
+ if(p<1||c<1||f<1){alert("Enter valid targets above zero.");return}
+ macroTargets={protein:p,carbs:c,fat:f};updateMacros();alert("Nutrition targets updated for this demo session.");
+};
+function updateCalorie(){
+ const eaten=totalFor(selectedDate),activities=dayActivities(selectedDate).reduce((s,x)=>s+x.cal,0);
+ $("eaten").textContent=eaten.toLocaleString(lang==="id"?"id-ID":"en-US");
+ $("calorie-progress").style.width=Math.min(100,eaten/target*100)+"%";
+ $("target-status").textContent=eaten>=target?`${eaten-target} kcal above your ${target} kcal target`:`${target-eaten} kcal remaining of ${target} kcal`;
+ $("food-count").textContent=dayFoods(selectedDate).length;
+ $("activity-count").textContent=dayActivities(selectedDate).length;
+ $("burned").textContent=activities.toLocaleString();
+}
+function updateMacros(){
+ const m=macrosFor(selectedDate);
+ [["protein",m.p],["carbs",m.c],["fat",m.f]].forEach(([key,value])=>{
+  const goal=macroTargets[key];
+  $(key+"-label").textContent=`${Math.round(value)} / ${goal} g`;
+  $(key+"-bar").style.width=Math.min(100,value/goal*100)+"%";
+ });
 }
 function renderLogs(){
-$("food-logs").innerHTML=foodLog.length?foodLog.map((x,i)=>`<div class="result"><div><strong>${safe(x.name)}</strong><small>${tr("foodLog")}</small></div><div><span class="cal">${x.cal} kcal</span> <button data-rf="${i}">${tr("remove")}</button></div></div>`).join(""):`<div class="empty">${tr("emptyFood")}</div>`;
-$("exercise-logs").innerHTML=activityLog.length?activityLog.map((x,i)=>`<div class="result"><div><strong>${safe(x.name)}</strong><small>${tr("movement")}</small></div><div><span class="cal">−${x.cal} kcal</span> <button data-ra="${i}">${tr("remove")}</button></div></div>`).join(""):`<div class="empty">${tr("emptyExercise")}</div>`;
-$("weight-logs").innerHTML=weightLog.length?weightLog.map((w,i)=>`<div class="result"><strong>${w} kg</strong><small>${tr("weight")} ${i+1}</small></div>`).join(""):`<div class="empty">${tr("emptyWeight")}</div>`;
-$("food-count").textContent=foodLog.length;
-$("activity-count").textContent=activityLog.length;
-$("burned").textContent=activityLog.reduce((s,x)=>s+x.cal,0);
-$("food-logs").querySelectorAll("[data-rf]").forEach(b=>b.onclick=()=>{foodLog.splice(+b.dataset.rf,1);renderLogs();updateCalorie()});
-$("exercise-logs").querySelectorAll("[data-ra]").forEach(b=>b.onclick=()=>{activityLog.splice(+b.dataset.ra,1);renderLogs();updateCalorie()});
+ const foods=dayFoods(selectedDate),acts=dayActivities(selectedDate);
+ $("food-logs").innerHTML=foods.length?foods.map((x,i)=>`<div class="log-row"><div><strong>${safe(x.name)}</strong><small>${safe(x.details||"Food entry")}</small></div><div><span class="log-value">${Math.round(x.cal)} kcal</span><button class="remove-button" data-rf="${i}" type="button">Remove</button></div></div>`).join(""):`<div class="empty">No food entries for this date yet.</div>`;
+ $("exercise-logs").innerHTML=acts.length?acts.map((x,i)=>`<div class="log-row"><div><strong>${safe(x.name)}</strong><small>Activity</small></div><div><span class="log-value">−${x.cal} kcal</span><button class="remove-button" data-ra="${i}" type="button">Remove</button></div></div>`).join(""):`<div class="empty">No activities logged for this date.</div>`;
+ $("weight-logs").innerHTML=weightLog.filter(x=>x.date===selectedDate).map(x=>`<div class="log-row"><div><strong>${x.weight} kg</strong><small>${prettyDate(x.date)}</small></div></div>`).join("")||`<div class="empty">No weight entries for this date.</div>`;
+ $("food-logs").querySelectorAll("[data-rf]").forEach(b=>b.onclick=()=>{foods.splice(+b.dataset.rf,1);renderLogs();updateCalorie();updateMacros();updateHistorySummary()});
+ $("exercise-logs").querySelectorAll("[data-ra]").forEach(b=>b.onclick=()=>{acts.splice(+b.dataset.ra,1);renderLogs();updateCalorie()});
 }
-function updateCalorie(){
-const eaten=foodLog.reduce((s,x)=>s+x.cal,0);
-$("eaten").textContent=eaten.toLocaleString(lang==="id"?"id-ID":"en-US");
-$("calorie-progress").style.width=target?Math.min(100,eaten/target*100)+"%":"0%";
-$("target-status").textContent=target?`${Math.max(0,target-eaten)} kcal ${lang==="id"?"tersisa dari target":"remaining of target"} (${target} kcal)`:tr("targetHint");
+function updateHistorySummary(){
+ $("history-today").textContent=totalFor(todayISO()).toLocaleString();
+ const yesterday=shiftDate(todayISO(),-1);
+ $("history-yesterday").textContent=dateHasEntries(yesterday)?totalFor(yesterday).toLocaleString():"—";
+ $("history-days").textContent=Object.keys(foodLogs).filter(d=>foodLogs[d].length).length;
+}
+$("open-history").onclick=()=>{$("history-modal").classList.remove("hidden");renderHistory()};
+document.querySelectorAll("[data-range]").forEach(b=>b.onclick=()=>{
+ historyRange=+b.dataset.range;
+ document.querySelectorAll("[data-range]").forEach(x=>x.classList.toggle("active",x===b));
+ renderHistory();
+});
+function renderHistory(){
+ const dates=[];
+ for(let i=historyRange-1;i>=0;i--)dates.push(shiftDate(todayISO(),-i));
+ const values=dates.map(d=>dateHasEntries(d)?totalFor(d):null);
+ const max=Math.max(target,...values.filter(v=>v!==null),1);
+ $("history-chart").innerHTML=dates.map((d,i)=>{
+  const v=values[i],height=v===null?0:Math.max(3,v/max*100);
+  return `<div class="chart-col"><div class="chart-value">${v===null?"—":Math.round(v)}</div><div class="chart-bar-area"><div class="chart-bar ${v!==null?"has-value":""}" style="height:${height}%"></div></div><div class="chart-day">${new Date(d+"T12:00:00").toLocaleDateString(lang==="id"?"id-ID":"en-US",{day:"numeric",month:historyRange===7?"short":undefined})}</div></div>`;
+ }).join("");
+ const logged=Object.keys(foodLogs).filter(d=>foodLogs[d].length).sort((a,b)=>b.localeCompare(a));
+ $("history-list").innerHTML=logged.length?logged.map(d=>`<div class="log-row"><div><strong>${prettyDate(d)}</strong><small>${foodLogs[d].length} food ${foodLogs[d].length===1?"entry":"entries"}</small></div><span class="log-value">${totalFor(d).toLocaleString()} kcal</span></div>`).join(""):`<div class="empty">Your history will appear here after you log food.</div>`;
 }
 setLang("en");
-
-function showMealPhoto(input) {
-  const file = input.files && input.files[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("image/")) {
-    alert("Please select an image.");
-    return;
-  }
-
-  const preview = document.getElementById("photo-preview");
-  const imageURL = URL.createObjectURL(file);
-
-  preview.innerHTML = "";
-
-  const image = document.createElement("img");
-  image.src = imageURL;
-  image.alt = "Your meal photo preview";
-
-  preview.appendChild(image);
-}
-
-document.getElementById("camera-input")
-  .addEventListener("change", function () {
-    showMealPhoto(this);
-  });
-
-document.getElementById("gallery-input")
-  .addEventListener("change", function () {
-    showMealPhoto(this);
-  });
-  
-const mealItems = document.getElementById("meal-items");
-const mealTotal = document.getElementById("meal-total");
-const addMealButton = document.getElementById("add-meal-item");
-
-// Estimasi kalori per 100 gram.
-// Angka adalah perkiraan dan dapat berbeda menurut resep.
-const calorieDatabase = {
-  "nasi putih": 130,
-  "nasi": 130,
-  "ayam goreng": 260,
-  "ayam rebus": 165,
-  "ikan": 130,
-  "ikan goreng": 200,
-  "tempe": 193,
-  "tempe goreng": 250,
-  "tahu": 80,
-  "tahu goreng": 115,
-  "telur": 155,
-  "telur rebus": 155,
-  "pisang": 89,
-  "mie": 140,
-  "mi": 140,
-  "sayur": 35,
-  "sambal": 100
-};
-
-function calculateMealCalories() {
-  let total = 0;
-
-  document.querySelectorAll(".meal-item").forEach(item => {
-    const name = item.querySelector(".meal-name").value
-      .trim().toLowerCase();
-    const weight = Number(
-      item.querySelector(".meal-weight").value
-    );
-
-    const caloriesPer100 = calorieDatabase[name];
-
-    if (caloriesPer100 && weight > 0) {
-      total += caloriesPer100 * weight / 100;
-    }
-  });
-
-  mealTotal.textContent =
-    Math.round(total).toLocaleString("id-ID") + " kcal";
-}
-
-addMealButton.addEventListener("click", () => {
-  const item = document.createElement("div");
-  item.className = "meal-item";
-  item.style.marginTop = "12px";
-
-  item.innerHTML = `
-    <input class="search-input meal-name"
-      placeholder="Food name (e.g. fish)">
-    <input class="search-input meal-weight"
-      type="number" min="1"
-      placeholder="Weight (grams)">
-    <button class="btn remove-meal" type="button"
-      style="margin-top:8px">Remove</button>
-  `;
-
-  mealItems.appendChild(item);
-  calculateMealCalories();
-});
-
-mealItems.addEventListener("input", calculateMealCalories);
-
-mealItems.addEventListener("click", event => {
-  if (event.target.classList.contains("remove-meal")) {
-    event.target.closest(".meal-item").remove();
-    calculateMealCalories();
-  }
-});
+renderDateStrip();renderCalendar();renderLogs();updateCalorie();updateMacros();updateHistorySummary();
 </script>
 </body>
 </html>
