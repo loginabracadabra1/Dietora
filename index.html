@@ -537,8 +537,23 @@ footer { text-align: center; color: #8A9588; font-size: 11px; padding: 20px; }
   <div class="dashboard-grid">
     <div>
       <section class="panel">
-        <h3 data-t="foodSearch">Find food calories</h3><p class="panel-desc" data-t="foodSearchDesc">Search the sample list or add your own estimate.</p>
-        <div class="search-row"><input class="search-input" id="search" data-ph="searchPlaceholder" placeholder="Try rice, banana, egg..."><button class="btn" id="search-button" data-t="searchBtn" type="button">Search</button></div>
+        
+<h3>Meal Calorie Calculator</h3>
+<p class="panel-desc">Enter each food and its weight to estimate calories.</p>
+
+<div id="meal-items">
+  <div class="meal-item">
+    <input class="search-input meal-name" placeholder="Food name (e.g. rice)">
+    <input class="search-input meal-weight" type="number" min="1" placeholder="Weight (grams)">
+  </div>
+</div>
+
+<button class="btn" id="add-meal-item" type="button">+ Add another food</button>
+
+<div class="calorie-card" style="margin-top:16px">
+  <p>Total estimated calories</p>
+  <h2 id="meal-total">0 kcal</h2>
+</div>
         
 <div class="scanner-box">
   <div class="scanner-icon">📷</div>
@@ -818,6 +833,81 @@ document.getElementById("gallery-input")
   .addEventListener("change", function () {
     showMealPhoto(this);
   });
+  
+const mealItems = document.getElementById("meal-items");
+const mealTotal = document.getElementById("meal-total");
+const addMealButton = document.getElementById("add-meal-item");
+
+// Estimasi kalori per 100 gram.
+// Angka adalah perkiraan dan dapat berbeda menurut resep.
+const calorieDatabase = {
+  "nasi putih": 130,
+  "nasi": 130,
+  "ayam goreng": 260,
+  "ayam rebus": 165,
+  "ikan": 130,
+  "ikan goreng": 200,
+  "tempe": 193,
+  "tempe goreng": 250,
+  "tahu": 80,
+  "tahu goreng": 115,
+  "telur": 155,
+  "telur rebus": 155,
+  "pisang": 89,
+  "mie": 140,
+  "mi": 140,
+  "sayur": 35,
+  "sambal": 100
+};
+
+function calculateMealCalories() {
+  let total = 0;
+
+  document.querySelectorAll(".meal-item").forEach(item => {
+    const name = item.querySelector(".meal-name").value
+      .trim().toLowerCase();
+    const weight = Number(
+      item.querySelector(".meal-weight").value
+    );
+
+    const caloriesPer100 = calorieDatabase[name];
+
+    if (caloriesPer100 && weight > 0) {
+      total += caloriesPer100 * weight / 100;
+    }
+  });
+
+  mealTotal.textContent =
+    Math.round(total).toLocaleString("id-ID") + " kcal";
+}
+
+addMealButton.addEventListener("click", () => {
+  const item = document.createElement("div");
+  item.className = "meal-item";
+  item.style.marginTop = "12px";
+
+  item.innerHTML = `
+    <input class="search-input meal-name"
+      placeholder="Food name (e.g. fish)">
+    <input class="search-input meal-weight"
+      type="number" min="1"
+      placeholder="Weight (grams)">
+    <button class="btn remove-meal" type="button"
+      style="margin-top:8px">Remove</button>
+  `;
+
+  mealItems.appendChild(item);
+  calculateMealCalories();
+});
+
+mealItems.addEventListener("input", calculateMealCalories);
+
+mealItems.addEventListener("click", event => {
+  if (event.target.classList.contains("remove-meal")) {
+    event.target.closest(".meal-item").remove();
+    calculateMealCalories();
+  }
+});
 </script>
 </body>
 </html>
