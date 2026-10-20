@@ -462,6 +462,39 @@ footer { text-align: center; color: #8A9588; font-size: 11px; padding: 20px; }
       <section class="panel">
         <h3 data-t="foodSearch">Find food calories</h3><p class="panel-desc" data-t="foodSearchDesc">Search the sample list or add your own estimate.</p>
         <div class="search-row"><input class="search-input" id="search" data-ph="searchPlaceholder" placeholder="Try rice, banana, egg..."><button class="btn" id="search-button" data-t="searchBtn" type="button">Search</button></div>
+        
+<div class="scanner-box">
+  <div class="scanner-icon">📷</div>
+  <h3>Scan your meal</h3>
+  <p>Take a photo or choose one from your gallery.</p>
+
+  <label class="scanner-button">
+    📷 Open camera
+    <input
+      id="camera-input"
+      type="file"
+      accept="image/*"
+      capture="environment"
+      hidden
+    >
+  </label>
+
+  <label class="gallery-button">
+    Choose from gallery
+    <input
+      id="gallery-input"
+      type="file"
+      accept="image/*"
+      hidden
+    >
+  </label>
+
+  <div id="photo-preview" class="photo-preview"></div>
+  <p class="scanner-note">
+    Photo calorie analysis will be added in a future update.
+  </p>
+</div>
+
         <div class="results" id="results"></div>
       </section>
       <section class="panel">
